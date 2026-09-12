@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calculadora interna — Cabañas Doña Dacia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..600&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f6f7f6; --bg-alt:#edf0f0; --surface:#ffffff; --surface-2:#eef1f1;
+    --ink:#15181a; --ink-soft:#576066; --line:rgba(21,24,26,.13);
+    --accent:#245a7c; --accent-2:#4c7a5e; --accent-2-soft:#e1ede3;
+    --cta:#123a52; --cta-hover:#0d2c3f; --cta-ink:#f2f8fb; --cta-soft:rgba(18,58,82,.22);
+    --shadow:rgba(20,24,22,.16);
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#0c1113; --bg-alt:#101619; --surface:#161d20; --surface-2:#1b2327;
+      --ink:#eef2f2; --ink-soft:#9aa7ac; --line:rgba(238,242,242,.13);
+      --accent:#5fa8cf; --accent-2:#7cbf95; --accent-2-soft:rgba(124,191,149,.15);
+      --cta:#4fb8e0; --cta-hover:#74c9e8; --cta-ink:#06171f; --cta-soft:rgba(79,184,224,.26);
+      --shadow:rgba(0,0,0,.5);
+    }
+  }
+  *{box-sizing:border-box;}
+  html{font-size:19px;}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:"Manrope", sans-serif; line-height:1.5;
+    padding:1.5rem 1rem 4rem;
+  }
+  .wrap{max-width:680px; margin:0 auto;}
+  .badge{
+    display:inline-block; font-size:.8rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase;
+    color:var(--accent-2); background:var(--accent-2-soft); padding:.4em .9em; border-radius:999px;
+    margin-bottom:.9rem;
+  }
+  h1{
+    font-family:"Fraunces", Georgia, serif; font-size:clamp(1.7rem, 4vw, 2.2rem);
+    margin:0 0 .4rem;
+  }
+  .intro{color:var(--ink-soft); font-size:1rem; margin:0 0 1.6rem;}
+  .box{
+    background:var(--surface); border:1px solid var(--line); border-radius:20px;
+    padding:1.6rem; box-shadow:0 18px 40px -28px var(--shadow);
+  }
+  .grid2{display:grid; grid-template-columns:1fr 1fr; gap:1.1rem;}
+  @media (max-width:480px){ .grid2{grid-template-columns:1fr;} }
+  label.field{display:flex; flex-direction:column; gap:.45rem; font-size:1rem; color:var(--ink-soft); margin-bottom:1.2rem;}
+  label.field span{font-weight:700; color:var(--ink);}
+  input, select{
+    font-family:"Manrope", sans-serif; font-size:1.15rem; color:var(--ink);
+    background:var(--surface-2); border:1px solid var(--line); border-radius:10px;
+    padding:.75em .8em; width:100%; min-height:3rem;
+  }
+  input:focus, select:focus{outline:2px solid var(--accent); outline-offset:1px;}
+  hr{border:none; border-top:1px solid var(--line); margin:1.4rem 0;}
+  .extras-label{display:block; font-weight:700; font-size:1rem; margin-bottom:.9rem;}
+  .otros-row{display:grid; grid-template-columns:2fr 1fr; gap:.8rem;}
+  @media (max-width:480px){ .otros-row{grid-template-columns:1fr;} }
+  .result{margin-top:1.4rem; padding-top:1.2rem; border-top:1px dashed var(--line);}
+  .lines div{display:flex; justify-content:space-between; gap:1rem; font-size:1.02rem; color:var(--ink-soft); padding:.3rem 0;}
+  .total{display:flex; justify-content:space-between; align-items:baseline; margin-top:.9rem;}
+  .total span{font-weight:700; font-size:1.15rem;}
+  .total b{font-family:"Fraunces", Georgia, serif; font-size:2.5rem; color:var(--cta);}
+  .actions{display:flex; gap:1rem; margin-top:1.6rem; flex-wrap:wrap;}
+  .btn{
+    flex:1 1 auto; display:inline-flex; align-items:center; justify-content:center; gap:.5em;
+    font-family:"Manrope", sans-serif; font-weight:700; font-size:1.2rem;
+    padding:1.05em 1.4em; min-height:3.4rem; border-radius:999px; border:1px solid transparent; cursor:pointer;
+    text-decoration:none; transition:transform .15s ease, background .15s ease;
+  }
+  .btn:hover{transform:translateY(-1px);}
+  .btn-primary{background:var(--cta); color:var(--cta-ink);}
+  .btn-primary:hover{background:var(--cta-hover);}
+  .btn-ghost{background:transparent; border-color:var(--line); border-width:2px; color:var(--ink);}
+  .copied{color:var(--accent-2); font-size:1rem; font-weight:700; margin-top:.8rem; display:none;}
+  .copied.show{display:block;}
+  footer{text-align:center; color:var(--ink-soft); font-size:.85rem; margin-top:2rem;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <span class="badge">Uso interno de la familia</span>
+  <h1>Calculadora de cotizaciones</h1>
+  <p class="intro">Esta página es solo para uso interno — no es la página pública que ven los huéspedes. Sirve para saber rápido cuánto cobrar cuando alguien pide una cotización o factura, incluyendo cosas que varían caso por caso como transporte u otros cargos.</p>
+
+  <div class="box">
+    <div class="grid2">
+      <label class="field">
+        <span>Fecha <small style="font-weight:400;">(opcional)</small></span>
+        <input type="date" id="qDate">
+      </label>
+      <label class="field">
+        <span>Cabaña</span>
+        <select id="qCabin">
+          <option value="dacia">Doña Dacia — ₡10.000 x persona/noche</option>
+          <option value="angel">El Ángel — ₡15.000 x persona/noche</option>
+        </select>
+      </label>
+      <label class="field">
+        <span>Personas</span>
+        <input type="number" id="qPeople" min="0" max="30" value="2" inputmode="numeric">
+      </label>
+      <label class="field">
+        <span>Noches</span>
+        <input type="number" id="qNights" min="0" max="30" value="1" inputmode="numeric">
+      </label>
+    </div>
+
+    <hr>
+    <span class="extras-label">Extras opcionales — cantidad total para toda la estadía</span>
+    <div class="grid2">
+      <label class="field">
+        <span>Desayunos — ₡3.000 c/u</span>
+        <input type="number" id="qBreakfast" min="0" max="60" value="0" inputmode="numeric">
+      </label>
+      <label class="field">
+        <span>Almuerzos — ₡3.500 c/u</span>
+        <input type="number" id="qLunch" min="0" max="60" value="0" inputmode="numeric">
+      </label>
+      <label class="field">
+        <span>Cenas — ₡3.500 c/u</span>
+        <input type="number" id="qDinner" min="0" max="60" value="0" inputmode="numeric">
+      </label>
+      <label class="field">
+        <span>Senderismo al río — ₡3.000 c/u</span>
+        <input type="number" id="qHiking" min="0" max="60" value="0" inputmode="numeric">
+      </label>
+    </div>
+
+    <hr>
+    <span class="extras-label">Cargos que ustedes definen (monto directo en colones)</span>
+    <label class="field">
+      <span>Transporte</span>
+      <input type="number" id="qTransport" min="0" step="500" value="0" inputmode="numeric" placeholder="0">
+    </label>
+    <div class="field">
+      <span>Otros</span>
+      <div class="otros-row">
+        <input type="text" id="qOtrosLabel" placeholder="Nombre del cargo (ej: limpieza extra)">
+        <input type="number" id="qOtrosMonto" min="0" step="500" value="0" inputmode="numeric" placeholder="Monto">
+      </div>
+    </div>
+
+    <div class="result">
+      <div class="lines" id="qLines"></div>
+      <div class="total"><span>Total estimado</span><b id="qTotal">₡0</b></div>
+    </div>
+
+    <div class="actions">
+      <button type="button" class="btn btn-primary" id="qCopy">Copiar resumen</button>
+      <button type="button" class="btn btn-ghost" id="qReset">Reiniciar</button>
+    </div>
+    <p class="copied" id="qCopiedMsg">✓ Resumen copiado — ya lo podés pegar donde lo necesiten.</p>
+  </div>
+
+  <footer>Cabañas Doña Dacia — calculadora interna, no pública.</footer>
+</div>
+
+<script>
+  (function(){
+    var cabinSel = document.getElementById('qCabin');
+    var dateInp = document.getElementById('qDate');
+    var peopleInp = document.getElementById('qPeople');
+    var nightsInp = document.getElementById('qNights');
+    var bfInp = document.getElementById('qBreakfast');
+    var lunchInp = document.getElementById('qLunch');
+    var dinnerInp = document.getElementById('qDinner');
+    var hikingInp = document.getElementById('qHiking');
+    var transportInp = document.getElementById('qTransport');
+    var otrosLabelInp = document.getElementById('qOtrosLabel');
+    var otrosMontoInp = document.getElementById('qOtrosMonto');
+    var linesEl = document.getElementById('qLines');
+    var totalEl = document.getElementById('qTotal');
+    var copyBtn = document.getElementById('qCopy');
+    var resetBtn = document.getElementById('qReset');
+    var copiedMsg = document.getElementById('qCopiedMsg');
+
+    function fmt(n){
+      return '₡' + Math.round(n).toLocaleString('es-CR');
+    }
+    function qty(inp){
+      return Math.max(0, parseInt(inp.value, 10) || 0);
+    }
+    function money(inp){
+      return Math.max(0, parseFloat(inp.value) || 0);
+    }
+    function fmtDate(iso){
+      var parts = iso.split('-');
+      if (parts.length !== 3) return iso;
+      return parts[2] + '/' + parts[1] + '/' + parts[0];
+    }
+
+    var lastSummary = '';
+
+    function compute(){
+      var cabin = cabinSel.value;
+      var people = qty(peopleInp);
+      var nights = qty(nightsInp);
+      var dateVal = dateInp.value;
+      var cabinName = cabin === 'dacia' ? 'Doña Dacia' : 'El Ángel';
+
+      var base, baseLine;
+      if (cabin === 'dacia'){
+        base = 10000 * people * nights;
+        baseLine = ['Doña Dacia: ' + people + ' pers. × ' + nights + ' noche(s) × ₡10.000', base];
+      } else if (people > 5){
+        base = 60000 * nights;
+        baseLine = ['El Ángel (tarifa plana, +5 personas): ' + nights + ' noche(s) × ₡60.000', base];
+      } else {
+        base = 15000 * people * nights;
+        baseLine = ['El Ángel: ' + people + ' pers. × ' + nights + ' noche(s) × ₡15.000', base];
+      }
+
+      var bf = qty(bfInp), lu = qty(lunchInp), din = qty(dinnerInp), hik = qty(hikingInp);
+      var transport = money(transportInp);
+      var otrosMonto = money(otrosMontoInp);
+      var otrosLabel = (otrosLabelInp.value || '').trim();
+
+      var lines = [baseLine];
+      var extrasTotal = 0;
+      if (bf > 0){ var c = bf*3000; extrasTotal += c; lines.push(['Desayunos × ' + bf + ' (₡3.000 c/u)', c]); }
+      if (lu > 0){ var c2 = lu*3500; extrasTotal += c2; lines.push(['Almuerzos × ' + lu + ' (₡3.500 c/u)', c2]); }
+      if (din > 0){ var c3 = din*3500; extrasTotal += c3; lines.push(['Cenas × ' + din + ' (₡3.500 c/u)', c3]); }
+      if (hik > 0){ var c4 = hik*3000; extrasTotal += c4; lines.push(['Senderismo al río × ' + hik + ' (₡3.000 c/u)', c4]); }
+      if (transport > 0){ extrasTotal += transport; lines.push(['Transporte', transport]); }
+      if (otrosMonto > 0){ extrasTotal += otrosMonto; lines.push([otrosLabel ? otrosLabel : 'Otros', otrosMonto]); }
+
+      var total = base + extrasTotal;
+
+      linesEl.innerHTML = lines.map(function(l){
+        return '<div><span>' + l[0] + '</span><span>' + fmt(l[1]) + '</span></div>';
+      }).join('');
+      totalEl.textContent = fmt(total);
+
+      var msgLines = [];
+      msgLines.push('Cotización — Cabaña ' + cabinName);
+      if (dateVal) msgLines.push('Fecha: ' + fmtDate(dateVal));
+      msgLines.push('Personas: ' + people);
+      msgLines.push('Noches: ' + nights);
+      lines.forEach(function(l){ msgLines.push(l[0] + ': ' + fmt(l[1])); });
+      msgLines.push('Total estimado: ' + fmt(total));
+      lastSummary = msgLines.join('\n');
+    }
+
+    [cabinSel, dateInp, peopleInp, nightsInp, bfInp, lunchInp, dinnerInp, hikingInp, transportInp, otrosLabelInp, otrosMontoInp].forEach(function(el){
+      el.addEventListener('input', compute);
+      el.addEventListener('change', compute);
+    });
+
+    function normalizeOnBlur(inp, min){
+      inp.addEventListener('blur', function(){
+        var v = Math.max(min, parseInt(inp.value, 10) || min);
+        inp.value = v;
+        compute();
+      });
+    }
+    normalizeOnBlur(peopleInp, 0);
+    normalizeOnBlur(nightsInp, 0);
+
+    copyBtn.addEventListener('click', function(){
+      compute();
+      function showCopied(){
+        copiedMsg.classList.add('show');
+        setTimeout(function(){ copiedMsg.classList.remove('show'); }, 3500);
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(lastSummary).then(showCopied, function(){
+          fallbackCopy();
+        });
+      } else {
+        fallbackCopy();
+      }
+      function fallbackCopy(){
+        var ta = document.createElement('textarea');
+        ta.value = lastSummary;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); showCopied(); } catch (e) {}
+        document.body.removeChild(ta);
+      }
+    });
+
+    resetBtn.addEventListener('click', function(){
+      dateInp.value = '';
+      cabinSel.value = 'dacia';
+      peopleInp.value = 2;
+      nightsInp.value = 1;
+      bfInp.value = 0;
+      lunchInp.value = 0;
+      dinnerInp.value = 0;
+      hikingInp.value = 0;
+      transportInp.value = 0;
+      otrosLabelInp.value = '';
+      otrosMontoInp.value = 0;
+      compute();
+    });
+
+    compute();
+  })();
+</script>
+</body>
+</html>
