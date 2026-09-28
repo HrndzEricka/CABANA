@@ -1348,7 +1348,7 @@
         </div>
       </div>
       <h3 class="gallery-sub reveal">Así se ve el paisaje alrededor</h3>
-        <div class="gallery-grid gallery-grid-paisaje reveal">
+        <div class="gallery-grid gallery-grid-paisaje">
         <div class="gallery-tile gallery-tile-photo"><img src="images/vista-de-las-montanas-alrededor-de-las-cabana.jpg" alt="Vista de las montañas alrededor de las cabañas" loading="lazy"><span>Vista de montaña</span></div>
         <div class="gallery-tile gallery-tile-photo"><img src="images/bosque-y-colinas-verdes-en-la-zona-de-las-cab.webp" alt="Bosque y colinas verdes en la zona de las cabañas" loading="lazy"><span>Bosque y senderos</span></div>
         <div class="gallery-tile gallery-tile-photo"><img src="images/nubes-sobre-las-montanas-cerca-de-las-cabanas.webp" alt="Nubes sobre las montañas cerca de las cabañas" loading="lazy"><span>Mar de nubes</span></div>
@@ -1665,7 +1665,10 @@
           io.unobserve(entry.target);
         }
       });
-    }, {threshold:.15});
+    // threshold 0 + rootMargin: un umbral en porcentaje (p. ej. .15) nunca se
+    // alcanza en bloques más altos que la pantalla del teléfono, y se quedaban
+    // invisibles para siempre.
+    }, {threshold:0, rootMargin:'0px 0px -10% 0px'});
     items.forEach(function(el){ io.observe(el); });
   })();
 
