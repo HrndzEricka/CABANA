@@ -589,16 +589,22 @@
 
   .gallery-tile-tall{aspect-ratio:3/4;}
   @media (max-width:480px){ .gallery-tile-tall{aspect-ratio:4/3;} }
-  .gallery-grid-paisaje{display:block; columns:3 220px; column-gap:1.2rem;}
-  .gallery-grid-paisaje .gallery-tile{width:100%; break-inside:avoid; margin-bottom:1.2rem; display:block;}
-  .gallery-grid-paisaje > .gallery-tile:last-child{column-span:all; aspect-ratio:21/7; margin-bottom:0;}
-  @media (max-width:900px){ .gallery-grid-paisaje{columns:2 220px;} }
+  /* Grid (no CSS columns): Safari en iPhone no pinta bien las fotos animadas
+     dentro de columnas CSS y dejaba un hueco enorme entre Experiencia y Menú. */
+  .gallery-grid-paisaje{grid-template-columns:repeat(3, 1fr);}
+  .gallery-grid-paisaje > .gallery-tile:last-child{grid-column:1 / -1; aspect-ratio:21/7;}
+  @media (max-width:900px){ .gallery-grid-paisaje{grid-template-columns:repeat(2, 1fr);} }
   @media (max-width:480px){
-    /* 2 columnas en teléfono: en 1 columna las 22 fotos dejaban un bloque enorme entre Reseñas y Menú */
-    .gallery-grid-paisaje{columns:2; column-gap:.6rem;}
-    .gallery-grid-paisaje .gallery-tile{margin-bottom:.6rem; border-radius:14px;}
+    .gallery-grid-paisaje{grid-template-columns:repeat(2, 1fr); gap:.6rem;}
+    .gallery-grid-paisaje .gallery-tile{border-radius:14px;}
     .gallery-grid-paisaje .gallery-tile span{font-size:.66rem; left:.4rem; bottom:.4rem; max-width:calc(100% - .8rem);}
     .gallery-grid-paisaje > .gallery-tile:last-child{aspect-ratio:16/9;}
+  }
+  .paisaje-more{display:none;}
+  @media (max-width:480px){
+    /* En teléfono solo 6 fotos; el resto con "Ver todas las fotos" */
+    .gallery-grid-paisaje:not(.is-expanded) > .gallery-tile:nth-child(n+7){display:none;}
+    .paisaje-more{display:flex; margin:1rem auto 0;}
   }
   .gallery-grid.gallery-grid-masonry{display:block; columns:3 220px; column-gap:1.2rem;}
   .gallery-grid-masonry .gallery-tile{width:100%; break-inside:avoid; margin-bottom:1.2rem; display:block;}
@@ -1364,24 +1370,25 @@
         <div class="gallery-tile gallery-tile-photo"><img src="images/atardecer-con-mar-de-nubes-visto-desde-la-cab.webp" alt="Atardecer con mar de nubes visto desde la cabaña" loading="lazy"><span>Mar de nubes al atardecer</span></div>
         <div class="gallery-tile gallery-tile-photo"><img src="images/vista-panoramica-de-la-cordillera-desde-la-ca.webp" alt="Vista panorámica de la cordillera desde la cabaña" loading="lazy"><span>Vista de la cordillera</span></div>
         <div class="gallery-tile gallery-tile-photo"><img src="images/quetzal-posado-en-un-arbol-del-bosque-nuboso-.webp" alt="Quetzal posado en un árbol del bosque nuboso cercano" loading="lazy"><span>Quetzal en el bosque</span></div>
-        <div class="gallery-tile gallery-tile-photo reveal"><img src="images/quetzal-visto-cerca-de-las-cabanas.webp" alt="Quetzal visto cerca de las cabañas" loading="lazy"><span>Quetzal en la zona</span></div>
-        <div class="gallery-tile gallery-tile-photo reveal"><img src="images/quetzal-en-su-habitat-natural-cerca-de-las-ca.webp" alt="Quetzal en su hábitat natural cerca de las cabañas" loading="lazy"><span>Otro avistamiento de quetzal</span></div>
-        <div class="gallery-tile gallery-tile-photo reveal"><img src="images/insectos-sobre-una-flor-silvestre-amarilla-ce.webp" alt="Insectos sobre una flor silvestre amarilla cerca de las cabañas" loading="lazy"><span>Vida silvestre en el jardín</span></div>
-        <div class="gallery-tile gallery-tile-photo reveal"><img src="images/flor-de-agapanto-abriendose-en-el-jardin-de-l.webp" alt="Flor de agapanto abriéndose en el jardín de las cabañas" loading="lazy"><span>Flores del jardín</span></div>
-        <div class="gallery-tile gallery-tile-photo reveal"><img src="images/quebrada-y-cascada-cercana-a-las-cabanas.jpg" alt="Quebrada y cascada cercana a las cabañas" loading="lazy"><span>Quebrada en la zona</span></div>
-        <div class="gallery-tile gallery-tile-photo reveal"><img src="images/ninos-disfrutando-del-campo-cerca-de-las-caba.jpg" alt="Niños disfrutando del campo cerca de las cabañas, sobre una vaca en el potrero" loading="lazy"><span>Paseo por el potrero</span></div>
-      <div class="gallery-tile gallery-tile-photo reveal"><img src="images/nino-jugando-en-el-rio-de-la-zona.jpg" alt="Niño jugando en el río de la zona" loading="lazy"><span>Río de la zona</span></div>
-      <div class="gallery-tile gallery-tile-photo reveal"><img src="images/ninos-caminando-por-la-loma-cerca-de-las-caba.jpg" alt="Niños caminando por la loma cerca de las cabañas" loading="lazy"><span>Caminata en la loma</span></div>
-      <div class="gallery-tile gallery-tile-photo reveal"><img src="images/moras-silvestres-tipicas-de-la-zona-de-montan.webp" alt="Moras silvestres típicas de la zona de montaña" loading="lazy"><span>Moras silvestres</span></div>
-      <div class="gallery-tile gallery-tile-photo reveal"><img src="images/vaca-de-la-zona-con-cielo-despejado-de-fondo.webp" alt="Vaca de la zona con cielo despejado de fondo" loading="lazy"><span>Ganado de la zona</span></div>
+        <div class="gallery-tile gallery-tile-photo"><img src="images/quetzal-visto-cerca-de-las-cabanas.webp" alt="Quetzal visto cerca de las cabañas" loading="lazy"><span>Quetzal en la zona</span></div>
+        <div class="gallery-tile gallery-tile-photo"><img src="images/quetzal-en-su-habitat-natural-cerca-de-las-ca.webp" alt="Quetzal en su hábitat natural cerca de las cabañas" loading="lazy"><span>Otro avistamiento de quetzal</span></div>
+        <div class="gallery-tile gallery-tile-photo"><img src="images/insectos-sobre-una-flor-silvestre-amarilla-ce.webp" alt="Insectos sobre una flor silvestre amarilla cerca de las cabañas" loading="lazy"><span>Vida silvestre en el jardín</span></div>
+        <div class="gallery-tile gallery-tile-photo"><img src="images/flor-de-agapanto-abriendose-en-el-jardin-de-l.webp" alt="Flor de agapanto abriéndose en el jardín de las cabañas" loading="lazy"><span>Flores del jardín</span></div>
+        <div class="gallery-tile gallery-tile-photo"><img src="images/quebrada-y-cascada-cercana-a-las-cabanas.jpg" alt="Quebrada y cascada cercana a las cabañas" loading="lazy"><span>Quebrada en la zona</span></div>
+        <div class="gallery-tile gallery-tile-photo"><img src="images/ninos-disfrutando-del-campo-cerca-de-las-caba.jpg" alt="Niños disfrutando del campo cerca de las cabañas, sobre una vaca en el potrero" loading="lazy"><span>Paseo por el potrero</span></div>
+      <div class="gallery-tile gallery-tile-photo"><img src="images/nino-jugando-en-el-rio-de-la-zona.jpg" alt="Niño jugando en el río de la zona" loading="lazy"><span>Río de la zona</span></div>
+      <div class="gallery-tile gallery-tile-photo"><img src="images/ninos-caminando-por-la-loma-cerca-de-las-caba.jpg" alt="Niños caminando por la loma cerca de las cabañas" loading="lazy"><span>Caminata en la loma</span></div>
+      <div class="gallery-tile gallery-tile-photo"><img src="images/moras-silvestres-tipicas-de-la-zona-de-montan.webp" alt="Moras silvestres típicas de la zona de montaña" loading="lazy"><span>Moras silvestres</span></div>
+      <div class="gallery-tile gallery-tile-photo"><img src="images/vaca-de-la-zona-con-cielo-despejado-de-fondo.webp" alt="Vaca de la zona con cielo despejado de fondo" loading="lazy"><span>Ganado de la zona</span></div>
       
-      <div class="gallery-tile gallery-tile-photo reveal"><img src="images/ave-posada-en-un-cipres-del-bosque-cercano.webp" alt="Ave posada en un ciprés del bosque cercano" loading="lazy"><span>Ave en el bosque</span></div>
-      <div class="gallery-tile gallery-tile-photo reveal"><img src="images/grupo-de-excursionistas-en-una-parada-junto-a.jpg" alt="Grupo de excursionistas en una parada junto al río" loading="lazy"><span>Grupo en el sendero</span></div>
-        <div class="gallery-tile gallery-tile-photo reveal"><img src="images/excursionistas-cruzando-una-quebrada-en-el-se.jpg" alt="Excursionistas cruzando una quebrada en el sendero cerca de las cabañas" loading="lazy"><span>Cruzando la quebrada</span></div>
-        <div class="gallery-tile gallery-tile-photo reveal"><img src="images/grupo-de-excursionistas-disfrutando-de-la-vis.jpg" alt="Grupo de excursionistas disfrutando de la vista en lo alto del sendero" loading="lazy"><span>Vista desde el sendero</span></div>
-        <div class="gallery-tile gallery-tile-photo reveal"><img src="images/grupo-de-excursionistas-frente-a-la-cabana-do.jpg" alt="Grupo de excursionistas frente a la Cabaña Doña Dacia" loading="lazy"><span>Huéspedes en la cabaña</span></div>
-        <div class="gallery-tile gallery-tile-photo reveal"><img src="images/cascada-entre-rocas-cerca-de-las-cabanas.jpg" alt="Cascada entre rocas cerca de las cabañas" loading="lazy"><span>Cascada en la zona</span></div><div class="gallery-tile gallery-tile-photo reveal"><img src="images/vista-panoramica-de-la-cordillera-de-montana-.webp" alt="Vista panorámica de la cordillera de montaña desde la zona" loading="lazy"><span>Panorámica de la cordillera</span></div><div class="gallery-tile gallery-tile-photo reveal"><img src="images/atardecer-sobre-la-cordillera-de-montana.webp" alt="Atardecer sobre la cordillera de montaña" loading="lazy"><span>Atardecer en la cordillera</span></div><div class="gallery-tile gallery-tile-photo reveal"><img src="images/nina-jugando-en-los-columpios-de-la-zona-de-j.webp" alt="Niña jugando en los columpios de la zona de juegos junto a las cabañas" loading="lazy"><span>Columpios para los niños</span></div><div class="gallery-tile gallery-tile-photo reveal"><img src="images/desayuno-tipico-con-gallo-pinto-queso-tortill.webp" alt="Desayuno típico con gallo pinto, queso, tortilla y café servido al aire libre" loading="lazy"><span>Desayuno típico de la zona</span></div><div class="gallery-tile gallery-tile-photo reveal"><img src="images/trucha-recien-pescada-en-la-zona.webp" alt="Trucha recién pescada en la zona" loading="lazy"><span>Pesca de trucha en la zona</span></div><div class="gallery-tile gallery-tile-photo reveal"><img src="images/vista-al-cerro-chirripo-desde-la-cordillera-c.webp" alt="Vista al Cerro Chirripó desde la cordillera cercana a las cabañas" loading="lazy"><span>Vista al Cerro Chirripó</span></div>
+      <div class="gallery-tile gallery-tile-photo"><img src="images/ave-posada-en-un-cipres-del-bosque-cercano.webp" alt="Ave posada en un ciprés del bosque cercano" loading="lazy"><span>Ave en el bosque</span></div>
+      <div class="gallery-tile gallery-tile-photo"><img src="images/grupo-de-excursionistas-en-una-parada-junto-a.jpg" alt="Grupo de excursionistas en una parada junto al río" loading="lazy"><span>Grupo en el sendero</span></div>
+        <div class="gallery-tile gallery-tile-photo"><img src="images/excursionistas-cruzando-una-quebrada-en-el-se.jpg" alt="Excursionistas cruzando una quebrada en el sendero cerca de las cabañas" loading="lazy"><span>Cruzando la quebrada</span></div>
+        <div class="gallery-tile gallery-tile-photo"><img src="images/grupo-de-excursionistas-disfrutando-de-la-vis.jpg" alt="Grupo de excursionistas disfrutando de la vista en lo alto del sendero" loading="lazy"><span>Vista desde el sendero</span></div>
+        <div class="gallery-tile gallery-tile-photo"><img src="images/grupo-de-excursionistas-frente-a-la-cabana-do.jpg" alt="Grupo de excursionistas frente a la Cabaña Doña Dacia" loading="lazy"><span>Huéspedes en la cabaña</span></div>
+        <div class="gallery-tile gallery-tile-photo"><img src="images/cascada-entre-rocas-cerca-de-las-cabanas.jpg" alt="Cascada entre rocas cerca de las cabañas" loading="lazy"><span>Cascada en la zona</span></div><div class="gallery-tile gallery-tile-photo"><img src="images/vista-panoramica-de-la-cordillera-de-montana-.webp" alt="Vista panorámica de la cordillera de montaña desde la zona" loading="lazy"><span>Panorámica de la cordillera</span></div><div class="gallery-tile gallery-tile-photo"><img src="images/atardecer-sobre-la-cordillera-de-montana.webp" alt="Atardecer sobre la cordillera de montaña" loading="lazy"><span>Atardecer en la cordillera</span></div><div class="gallery-tile gallery-tile-photo"><img src="images/nina-jugando-en-los-columpios-de-la-zona-de-j.webp" alt="Niña jugando en los columpios de la zona de juegos junto a las cabañas" loading="lazy"><span>Columpios para los niños</span></div><div class="gallery-tile gallery-tile-photo"><img src="images/desayuno-tipico-con-gallo-pinto-queso-tortill.webp" alt="Desayuno típico con gallo pinto, queso, tortilla y café servido al aire libre" loading="lazy"><span>Desayuno típico de la zona</span></div><div class="gallery-tile gallery-tile-photo"><img src="images/trucha-recien-pescada-en-la-zona.webp" alt="Trucha recién pescada en la zona" loading="lazy"><span>Pesca de trucha en la zona</span></div><div class="gallery-tile gallery-tile-photo"><img src="images/vista-al-cerro-chirripo-desde-la-cordillera-c.webp" alt="Vista al Cerro Chirripó desde la cordillera cercana a las cabañas" loading="lazy"><span>Vista al Cerro Chirripó</span></div>
         </div>
+        <button type="button" class="btn btn-ghost paisaje-more" aria-expanded="false">Ver todas las fotos (31)</button>
     </div>
   </section>
 
@@ -1666,7 +1673,7 @@
     }
     var io = new IntersectionObserver(function(entries){
       entries.forEach(function(entry){
-        if (entry.isIntersecting){
+        if (entry.isIntersecting || entry.boundingClientRect.top < 0){
           entry.target.classList.add('in');
           io.unobserve(entry.target);
         }
@@ -1676,6 +1683,29 @@
     // invisibles para siempre.
     }, {threshold:0, rootMargin:'0px 0px -10% 0px'});
     items.forEach(function(el){ io.observe(el); });
+
+    // Respaldo: si un bloque pasa de abajo a arriba de la pantalla sin llegar a
+    // cruzarla (scroll rápido, o la página se reacomoda al cargar fotos), el
+    // observer no avisa y se quedaría invisible. Al hacer scroll, mostrar todo
+    // lo que ya quedó por encima del borde inferior de la pantalla.
+    var ticking = false;
+    function revealPassed(){
+      ticking = false;
+      var pending = document.querySelectorAll('.reveal:not(.in)');
+      if (!pending.length){ window.removeEventListener('scroll', onScroll); return; }
+      var limit = window.innerHeight;
+      pending.forEach(function(el){
+        if (el.getBoundingClientRect().top < limit){
+          el.classList.add('in');
+          io.unobserve(el);
+        }
+      });
+    }
+    function onScroll(){
+      if (!ticking){ ticking = true; requestAnimationFrame(revealPassed); }
+    }
+    window.addEventListener('scroll', onScroll, {passive:true});
+    window.addEventListener('load', onScroll);
   })();
 
   // Nav: resaltar la sección activa mientras se hace scroll
@@ -1909,6 +1939,17 @@
           }
         }
       }
+    });
+    // Galería de paisaje en teléfono: "Ver todas las fotos" / "Ver menos fotos"
+    document.querySelectorAll('.paisaje-more').forEach(function(btn){
+      var label = btn.textContent;
+      btn.addEventListener('click', function(){
+        var grid = btn.previousElementSibling;
+        var open = grid.classList.toggle('is-expanded');
+        btn.setAttribute('aria-expanded', String(open));
+        btn.textContent = open ? 'Ver menos fotos' : label;
+        if (!open) grid.scrollIntoView({block:'start'});
+      });
     });
     // remember each button's original "+N más" label before first toggle
     document.querySelectorAll('.chip-more').forEach(function(btn){
