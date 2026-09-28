@@ -593,7 +593,13 @@
   .gallery-grid-paisaje .gallery-tile{width:100%; break-inside:avoid; margin-bottom:1.2rem; display:block;}
   .gallery-grid-paisaje > .gallery-tile:last-child{column-span:all; aspect-ratio:21/7; margin-bottom:0;}
   @media (max-width:900px){ .gallery-grid-paisaje{columns:2 220px;} }
-  @media (max-width:480px){ .gallery-grid-paisaje{columns:1;} .gallery-grid-paisaje > .gallery-tile:last-child{aspect-ratio:4/3;} }
+  @media (max-width:480px){
+    /* 2 columnas en teléfono: en 1 columna las 22 fotos dejaban un bloque enorme entre Reseñas y Menú */
+    .gallery-grid-paisaje{columns:2; column-gap:.6rem;}
+    .gallery-grid-paisaje .gallery-tile{margin-bottom:.6rem; border-radius:14px;}
+    .gallery-grid-paisaje .gallery-tile span{font-size:.66rem; left:.4rem; bottom:.4rem; max-width:calc(100% - .8rem);}
+    .gallery-grid-paisaje > .gallery-tile:last-child{aspect-ratio:16/9;}
+  }
   .gallery-grid.gallery-grid-masonry{display:block; columns:3 220px; column-gap:1.2rem;}
   .gallery-grid-masonry .gallery-tile{width:100%; break-inside:avoid; margin-bottom:1.2rem; display:block;}
   @media (max-width:900px){ .gallery-grid-masonry{columns:2 220px;} }
@@ -1348,7 +1354,7 @@
         </div>
       </div>
       <h3 class="gallery-sub reveal">Así se ve el paisaje alrededor</h3>
-        <div class="gallery-grid gallery-grid-paisaje reveal">
+        <div class="gallery-grid gallery-grid-paisaje">
         <div class="gallery-tile gallery-tile-photo"><img src="images/vista-de-las-montanas-alrededor-de-las-cabana.jpg" alt="Vista de las montañas alrededor de las cabañas" loading="lazy"><span>Vista de montaña</span></div>
         <div class="gallery-tile gallery-tile-photo"><img src="images/bosque-y-colinas-verdes-en-la-zona-de-las-cab.webp" alt="Bosque y colinas verdes en la zona de las cabañas" loading="lazy"><span>Bosque y senderos</span></div>
         <div class="gallery-tile gallery-tile-photo"><img src="images/nubes-sobre-las-montanas-cerca-de-las-cabanas.webp" alt="Nubes sobre las montañas cerca de las cabañas" loading="lazy"><span>Mar de nubes</span></div>
@@ -1665,7 +1671,10 @@
           io.unobserve(entry.target);
         }
       });
-    }, {threshold:.15});
+    // threshold 0 + rootMargin: un umbral en porcentaje (p. ej. .15) nunca se
+    // alcanza en bloques más altos que la pantalla del teléfono, y se quedaban
+    // invisibles para siempre.
+    }, {threshold:0, rootMargin:'0px 0px -10% 0px'});
     items.forEach(function(el){ io.observe(el); });
   })();
 
