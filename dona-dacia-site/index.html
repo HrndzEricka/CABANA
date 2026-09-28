@@ -593,7 +593,13 @@
   .gallery-grid-paisaje .gallery-tile{width:100%; break-inside:avoid; margin-bottom:1.2rem; display:block;}
   .gallery-grid-paisaje > .gallery-tile:last-child{column-span:all; aspect-ratio:21/7; margin-bottom:0;}
   @media (max-width:900px){ .gallery-grid-paisaje{columns:2 220px;} }
-  @media (max-width:480px){ .gallery-grid-paisaje{columns:1;} .gallery-grid-paisaje > .gallery-tile:last-child{aspect-ratio:4/3;} }
+  @media (max-width:480px){
+    /* 2 columnas en teléfono: en 1 columna las 22 fotos dejaban un bloque enorme entre Reseñas y Menú */
+    .gallery-grid-paisaje{columns:2; column-gap:.6rem;}
+    .gallery-grid-paisaje .gallery-tile{margin-bottom:.6rem; border-radius:14px;}
+    .gallery-grid-paisaje .gallery-tile span{font-size:.66rem; left:.4rem; bottom:.4rem; max-width:calc(100% - .8rem);}
+    .gallery-grid-paisaje > .gallery-tile:last-child{aspect-ratio:16/9;}
+  }
   .gallery-grid.gallery-grid-masonry{display:block; columns:3 220px; column-gap:1.2rem;}
   .gallery-grid-masonry .gallery-tile{width:100%; break-inside:avoid; margin-bottom:1.2rem; display:block;}
   @media (max-width:900px){ .gallery-grid-masonry{columns:2 220px;} }
