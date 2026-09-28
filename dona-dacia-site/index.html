@@ -833,6 +833,121 @@
   .lightbox-next{right:.8rem;}
   @media (max-width:640px){ .lightbox-prev{left:.3rem;} .lightbox-next{right:.3rem;} .lightbox-nav{width:40px; height:40px;} }
 
+  /* ---------- Celular: menú compacto ---------- */
+  .nav-quick, .nav-toggle{display:none;}
+  @media (max-width:760px){
+    header{padding-top:.6rem;}
+    .nav{flex-wrap:wrap; border-radius:22px; padding:.45rem .5rem .45rem .9rem; gap:.5rem; width:calc(100% - 1.5rem);}
+    header.scrolled .nav{padding-top:.4rem; padding-bottom:.4rem;}
+    .brand{font-size:1.05rem; margin-right:auto;}
+    .brand-logo{height:1.7rem;}
+    .nav-quick{
+      display:inline-flex; align-items:center; min-height:2.5rem; padding:0 1.05rem;
+      border-radius:999px; background:var(--accent); color:var(--accent-ink);
+      font-family:"Nunito Sans", sans-serif; font-weight:700; font-size:.9rem; text-decoration:none;
+    }
+    .nav-quick:active{transform:scale(.96);}
+    .nav-toggle{
+      display:inline-flex; flex-direction:column; justify-content:center; align-items:center; gap:4px;
+      width:2.6rem; height:2.6rem; border-radius:50%; border:1px solid var(--line);
+      background:var(--surface-2); cursor:pointer; padding:0;
+    }
+    .nav-toggle span{display:block; width:18px; height:2px; border-radius:2px; background:var(--ink); transition:transform .2s var(--ease-out), opacity .2s ease;}
+    .nav.is-open .nav-toggle span:nth-child(1){transform:translateY(6px) rotate(45deg);}
+    .nav.is-open .nav-toggle span:nth-child(2){opacity:0;}
+    .nav.is-open .nav-toggle span:nth-child(3){transform:translateY(-6px) rotate(-45deg);}
+    .nav-links{display:none;}
+    .nav.is-open .nav-links{
+      display:grid; grid-template-columns:1fr 1fr; gap:.35rem; width:100%;
+      padding:.5rem 0 .3rem; border-top:1px solid var(--line); margin-top:.3rem;
+    }
+    .nav.is-open .nav-links a{margin:0; padding:.75rem .9rem; border-radius:14px; background:var(--surface-2); font-size:1rem; justify-content:flex-start;}
+    .nav.is-open .nav-links a::after{display:none;}
+    .nav.is-open .nav-links a.active{background:var(--accent-soft);}
+    .nav.is-open .nav-links .nav-cta{grid-column:1 / -1; justify-content:center; padding:.8rem 1rem !important; font-size:1rem; background:var(--accent);}
+  }
+  @media (max-width:430px){ .nav .brand-word{display:inline;} .brand{font-size:.98rem;} }
+  @media (max-width:360px){ .nav .brand-word{display:none;} }
+
+  /* ---------- Cotizadora: selector de cabaña y extras ---------- */
+  .cabin-pick-field{display:none;}
+  .quote-extras-summary{list-style:none; cursor:default; pointer-events:none;}
+  .quote-extras-summary::-webkit-details-marker{display:none;}
+  .quote-extras-title, .quote-extras-count{display:none;}
+  .cta-short{display:none;}
+
+  /* ---------- Celular: cotizadora compacta ---------- */
+  @media (max-width:640px){
+    .quote-box{padding:1.1rem 1rem 0; border-radius:22px;}
+    .quote-grid{grid-template-columns:1fr 1fr; gap:1rem .7rem;}
+    .quote-grid > .quote-field:first-child, .cabin-pick-field{grid-column:1 / -1;}
+    .cabin-select-field{display:none;}
+    .cabin-pick-field{display:flex;}
+    .quote-field{font-size:.9rem; gap:.4rem;}
+    .quote-field-hint{font-size:.8rem;}
+    .quote-field input[type="date"]{font-size:1.05rem; min-height:3rem; padding:.6em .9em;}
+
+    .cabin-pick{display:grid; grid-template-columns:1fr 1fr; gap:.6rem;}
+    .cabin-pick-btn{
+      display:flex; flex-direction:column; align-items:flex-start; gap:.15rem; text-align:left;
+      padding:.75rem .8rem; border-radius:16px; cursor:pointer;
+      background:var(--surface-2); border:1.5px solid var(--line); color:var(--ink);
+      font-family:"Nunito Sans", sans-serif;
+      transition:border-color .15s ease, background .15s ease, box-shadow .15s ease;
+    }
+    .cabin-pick-btn b{font-size:1rem;}
+    .cabin-pick-btn small{font-size:.74rem; color:var(--ink-soft); font-weight:600; line-height:1.3;}
+    .cabin-pick-btn[aria-checked="true"]{border-color:var(--accent); background:var(--accent-soft); box-shadow:0 0 0 3px color-mix(in srgb, var(--accent) 14%, transparent);}
+    .cabin-pick-btn:active{transform:scale(.98);}
+
+    /* stepper en una sola pastilla: [ − ] 2 [ + ] */
+    .quote-box .stepper{display:flex; align-items:stretch; gap:0; border:1px solid var(--line); border-radius:14px; overflow:hidden; background:var(--surface-2);}
+    .quote-box .stepper-btns{display:contents;}
+    .quote-box .stepper-btn{width:2.8rem; min-height:2.9rem; font-size:1.35rem; border:none !important;}
+    .quote-box .stepper-btn[data-step="-1"]{order:0;}
+    .quote-box .stepper input[type="number"]{order:1; border:none; border-radius:0; background:transparent; min-height:2.9rem; font-size:1.2rem; font-weight:700; padding:0; box-shadow:none;}
+    .quote-box .stepper-btn[data-step="1"]{order:2;}
+
+    .quote-extras{margin-top:1.1rem; padding-top:0; border-top:none;}
+    .quote-extras-summary{
+      pointer-events:auto; cursor:pointer;
+      display:flex; align-items:center; justify-content:space-between; gap:.6rem;
+      padding:.85rem 1rem; border-radius:16px; border:1.5px dashed color-mix(in srgb, var(--accent) 45%, var(--line));
+      color:var(--accent); font-weight:700; font-size:.95rem;
+    }
+    .quote-extras-summary::after{content:"▾"; font-size:1rem; line-height:1; margin-left:auto; transition:transform .2s ease;}
+    .quote-extras[open] .quote-extras-summary::after{transform:rotate(180deg);}
+    .quote-extras-title{display:inline;}
+    .quote-extras-count{display:inline-flex; white-space:nowrap; flex:none; font-size:.75rem; background:var(--accent); color:var(--accent-ink); border-radius:999px; padding:.15em .6em;}
+    .quote-extras-count[hidden]{display:none;}
+    .quote-extras-label{font-size:.8rem; font-weight:500; margin:.8rem 0 .6rem;}
+    .quote-meals{grid-template-columns:1fr; gap:.55rem;}
+    .quote-meals .quote-field{flex-direction:row; align-items:center; justify-content:space-between; gap:.6rem; font-size:.88rem;}
+    .quote-meals .stepper{flex:none; width:8.6rem;}
+
+    /* total + WhatsApp en una barra fija abajo mientras se usa la calculadora */
+    /* contents: así la barra fija usa toda la caja de la cotizadora como límite */
+    .quote-result{display:contents;}
+    .quote-lines{font-size:.8rem; gap:.3rem; margin:1.1rem 0 .8rem; padding-top:1rem; border-top:1px solid var(--line);}
+    .quote-summary{
+      position:sticky; bottom:0; z-index:5;
+      display:flex; align-items:center; gap:.8rem;
+      margin:0 -1rem; padding:.7rem 1rem calc(.7rem + env(safe-area-inset-bottom));
+      background:var(--surface); border-top:1px solid var(--line);
+      box-shadow:0 -14px 24px -18px var(--shadow);
+    }
+    .quote-total{flex-direction:column; align-items:flex-start; gap:0; flex:none;}
+    .quote-total span{font-size:.72rem; text-transform:uppercase; letter-spacing:.06em;}
+    .quote-total b{font-size:1.55rem; line-height:1.1; white-space:nowrap;}
+    .quote-cta.btn{flex:1; margin-top:0; font-size:.95rem; min-height:3rem; padding:.6em .9em; text-align:center; line-height:1.2;}
+    .cta-long{display:none;}
+    .cta-short{display:inline;}
+    .quote-note{font-size:.78rem; margin:.9rem 0 1.1rem;}
+    /* el botón flotante de WhatsApp tapaba el botón de cotizar */
+    .wa-float{transition:transform .15s var(--ease-out), opacity .2s ease;}
+    body.in-quote .wa-float{opacity:0; pointer-events:none; transform:translateY(12px);}
+  }
+
   /* ---------- Reveal on scroll ---------- */
   .reveal{opacity:0; transform:translateY(14px); transition:opacity .6s ease, transform .6s ease;}
   .reveal.in{opacity:1; transform:none;}
@@ -844,7 +959,11 @@
 <header id="siteHeader">
   <nav class="nav">
     <a href="#top" class="brand"><img class="brand-logo" src="images/logo-de-cabana-dona-dacia.png" alt="Logo de Cabaña Doña Dacia"><span class="brand-word">Cabañas</span> <em>Doña Dacia</em></a>
-    <div class="nav-links">
+    <a href="#cotizar" class="nav-quick">Cotizar</a>
+    <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="navLinks" aria-label="Abrir menú">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-links" id="navLinks">
       <a href="#cabanas">Cabañas</a>
       <a href="#cotizar">Cotizar</a>
       <a href="#galeria">Galería</a>
@@ -1060,7 +1179,14 @@
             <span>Fecha deseada <span class="quote-field-hint">(opcional)</span></span>
             <input type="date" id="qDate">
           </label>
-          <label class="quote-field">
+          <div class="quote-field cabin-pick-field">
+            <span>Cabaña</span>
+            <div class="cabin-pick" role="radiogroup" aria-label="Elegí la cabaña">
+              <button type="button" class="cabin-pick-btn" role="radio" aria-checked="true" data-cabin="dacia"><b>Doña Dacia</b><small>₡10.000 x persona/noche</small></button>
+              <button type="button" class="cabin-pick-btn" role="radio" aria-checked="false" data-cabin="angel"><b>El Ángel</b><small>₡15.000 x persona/noche</small></button>
+            </div>
+          </div>
+          <label class="quote-field cabin-select-field">
             <span>Cabaña</span>
             <select id="qCabin">
               <option value="dacia">Doña Dacia — ₡10.000 x persona/noche</option>
@@ -1076,7 +1202,8 @@
             <div class="stepper"><input type="number" id="qNights" min="0" max="30" value="1" inputmode="numeric"><div class="stepper-btns"><button type="button" class="stepper-btn" data-target="qNights" data-step="-1" aria-label="Restar noche">−</button><button type="button" class="stepper-btn" data-target="qNights" data-step="1" aria-label="Sumar noche">+</button></div></div>
           </label>
         </div>
-        <div class="quote-extras">
+        <details class="quote-extras" open>
+          <summary class="quote-extras-summary"><span class="quote-extras-title">+ Comidas y senderismo <span class="quote-field-hint">(opcional)</span></span><span class="quote-extras-count" id="qExtrasCount" hidden></span></summary>
           <span class="quote-extras-label">Extras opcionales — cantidad total para toda la estadía (no por noche: cada quien elige las que quiera)</span>
           <div class="quote-meals">
             <label class="quote-field">
@@ -1096,12 +1223,14 @@
               <div class="stepper"><input type="number" id="qHiking" min="0" max="60" value="0" inputmode="numeric"><div class="stepper-btns"><button type="button" class="stepper-btn" data-target="qHiking" data-step="-1" aria-label="Restar senderismo">−</button><button type="button" class="stepper-btn" data-target="qHiking" data-step="1" aria-label="Sumar senderismo">+</button></div></div>
             </label>
           </div>
-        </div>
+        </details>
         <div class="quote-result">
           <div class="quote-lines" id="qLines"></div>
-          <div class="quote-total"><span>Total estimado</span><b id="qTotal">₡0</b></div>
+          <div class="quote-summary">
+            <div class="quote-total"><span>Total estimado</span><b id="qTotal">₡0</b></div>
+            <a href="#" id="qWhatsapp" target="_blank" rel="noopener" class="btn btn-primary btn-block quote-cta"><span class="cta-long">Cotizar y reservar por WhatsApp</span><span class="cta-short">Reservar por WhatsApp</span></a>
+          </div>
         </div>
-        <a href="#" id="qWhatsapp" target="_blank" rel="noopener" class="btn btn-primary btn-block quote-cta">Cotizar y reservar por WhatsApp</a>
         <p class="quote-note">El Ángel: si son más de 5 personas se cobra tarifa plana de ₡60.000 la noche por toda la cabaña. La fecha es opcional — al escribirnos por WhatsApp confirmamos la disponibilidad real y el detalle final.</p>
       </div>
     </div>
@@ -1613,6 +1742,13 @@
       }).join('');
       totalEl.textContent = fmt(total);
 
+      var extrasCount = document.getElementById('qExtrasCount');
+      if (extrasCount){
+        var n = bf + lu + din + hik;
+        extrasCount.hidden = n === 0;
+        extrasCount.textContent = n + (n === 1 ? ' extra' : ' extras');
+      }
+
       var msgLines = [];
       if (dateVal){
         msgLines.push('Hola, quisiera saber si está disponible la cabaña ' + cabinName + ' el ' + fmtDate(dateVal) + ', y cotizar mi estadía:');
@@ -1951,6 +2087,61 @@
         if (!open) grid.scrollIntoView({block:'start'});
       });
     });
+    // Celular: menú ☰
+    var nav = document.querySelector('.nav');
+    var navToggle = document.querySelector('.nav-toggle');
+    if (nav && navToggle){
+      function setNav(open){
+        nav.classList.toggle('is-open', open);
+        navToggle.setAttribute('aria-expanded', String(open));
+        navToggle.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
+      }
+      navToggle.addEventListener('click', function(){ setNav(!nav.classList.contains('is-open')); });
+      nav.querySelectorAll('.nav-links a').forEach(function(a){
+        a.addEventListener('click', function(){ setNav(false); });
+      });
+      document.addEventListener('click', function(e){
+        if (nav.classList.contains('is-open') && !nav.contains(e.target)) setNav(false);
+      });
+      document.addEventListener('keydown', function(e){
+        if (e.key === 'Escape' && nav.classList.contains('is-open')){ setNav(false); navToggle.focus(); }
+      });
+    }
+
+    // Cotizadora: tarjetas de cabaña (celular) sincronizadas con el <select>
+    var cabinSelect = document.getElementById('qCabin');
+    var pickBtns = document.querySelectorAll('.cabin-pick-btn');
+    if (cabinSelect && pickBtns.length){
+      function syncPick(){
+        pickBtns.forEach(function(b){ b.setAttribute('aria-checked', String(b.getAttribute('data-cabin') === cabinSelect.value)); });
+      }
+      pickBtns.forEach(function(b){
+        b.addEventListener('click', function(){
+          cabinSelect.value = b.getAttribute('data-cabin');
+          cabinSelect.dispatchEvent(new Event('change', {bubbles:true}));
+          syncPick();
+        });
+      });
+      cabinSelect.addEventListener('change', syncPick);
+      syncPick();
+    }
+    // Ocultar el botón flotante de WhatsApp mientras se ve la cotizadora
+    var quoteSection = document.getElementById('cotizar');
+    if (quoteSection && 'IntersectionObserver' in window){
+      new IntersectionObserver(function(entries){
+        document.body.classList.toggle('in-quote', entries[0].isIntersecting);
+      }, {threshold:0}).observe(quoteSection);
+    }
+    // Extras: en celular empiezan cerrados; en computadora siempre abiertos
+    var extras = document.querySelector('.quote-extras');
+    if (extras && window.matchMedia){
+      var phone = window.matchMedia('(max-width:640px)');
+      function syncExtras(){ extras.open = !phone.matches; }
+      syncExtras();
+      if (phone.addEventListener) phone.addEventListener('change', syncExtras);
+      extras.querySelector('summary').addEventListener('click', function(e){ if (!phone.matches) e.preventDefault(); });
+    }
+
     // remember each button's original "+N más" label before first toggle
     document.querySelectorAll('.chip-more').forEach(function(btn){
       btn.setAttribute('data-more-label', btn.textContent);
