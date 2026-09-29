@@ -36,9 +36,10 @@
 - ✅ Práctica y autoevaluación
 
 ## Presentaciones PowerPoint — `presentaciones/`
-- ✅ `RA1_Nube_y_Virtualizacion.pptx` (33 diapositivas)
-- ✅ `RA2_Seguridad_Datos_Infraestructura.pptx` (24 diapositivas)
-- ✅ `RA3_Operaciones_Seguridad_Nube.pptx` (22 diapositivas)
+Cada tema del programa tiene su propia diapositiva con definición, características y un ejemplo concreto; incluyen casos prácticos paso a paso y notas del orador para el docente.
+- ✅ `RA1_Nube_y_Virtualizacion.pptx` (58 diapositivas)
+- ✅ `RA2_Seguridad_Datos_Infraestructura.pptx` (43 diapositivas)
+- ✅ `RA3_Operaciones_Seguridad_Nube.pptx` (34 diapositivas)
 
 ## Trabajos cotidianos (Word) — `cotidianos/`
 Cada uno trae encabezado MEP, resultado de aprendizaje, indicadores de logro, instrucciones, hoja de trabajo y rúbrica (niveles 1–3).
