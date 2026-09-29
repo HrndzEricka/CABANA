@@ -35,7 +35,26 @@
 - ✅ Operaciones de seguridad: seguridad como servicio, proveedores (selección, evaluación, administración), respuesta a incidentes
 - ✅ Práctica y autoevaluación
 
+## Presentaciones PowerPoint — `presentaciones/`
+- ✅ `RA1_Nube_y_Virtualizacion.pptx` (33 diapositivas)
+- ✅ `RA2_Seguridad_Datos_Infraestructura.pptx` (24 diapositivas)
+- ✅ `RA3_Operaciones_Seguridad_Nube.pptx` (22 diapositivas)
+
+## Trabajos cotidianos (Word) — `cotidianos/`
+Cada uno trae encabezado MEP, resultado de aprendizaje, indicadores de logro, instrucciones, hoja de trabajo y rúbrica (niveles 1–3).
+- ✅ N.º 1 Laboratorio: mi primera máquina virtual (RA1, 18 pts)
+- ✅ N.º 2 Consultoría: ¿qué nube necesita la empresa? (RA1, 18 pts)
+- ✅ N.º 3 ¿Quién protege qué? Responsabilidad compartida y ciclo de vida (RA2, 18 pts)
+- ✅ N.º 4 Laboratorio de cifrado y hash (RA2, 15 pts)
+- ✅ N.º 5 Análisis de riesgos de un servicio en la nube (RA3, 18 pts)
+- ✅ N.º 6 Evaluación de proveedores y simulacro de incidentes (RA3, 18 pts)
+
+## Proyecto — `proyecto/`
+- ✅ `Proyecto_CloudSegura_CR.docx`: integra RA1, RA2 y RA3; 4 fases, roles, cronograma, bitácora, 4 rúbricas, autoevaluación y coevaluación (84 pts)
+
+## Docente — `docente/`
+- ✅ `Guia_Docente_Solucionario.docx`: distribución sugerida y respuestas esperadas de los 6 cotidianos
+
 ## Pendiente (no hecho aún)
-- ⬜ Prueba/examen en línea de estos temas (como la de EXACIBER)
-- ⬜ Presentaciones (diapositivas) por tema
-- ⬜ Cotidianos (trabajo cotidiano con indicadores y rúbrica) — RA1, RA2 y RA3
+- ⬜ Prueba escrita / examen en línea de estos temas (como la de EXACIBER)
+- ⬜ Porcentajes de cada cotidiano y del proyecto (quedaron en blanco para que el docente los defina)
