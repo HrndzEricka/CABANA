@@ -38,3 +38,4 @@
 ## Pendiente (no hecho aún)
 - ⬜ Prueba/examen en línea de estos temas (como la de EXACIBER)
 - ⬜ Presentaciones (diapositivas) por tema
+- ⬜ Cotidianos (trabajo cotidiano con indicadores y rúbrica) — RA1, RA2 y RA3
