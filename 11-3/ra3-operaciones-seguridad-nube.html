@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RA3 — Operaciones de seguridad en la nube · 11°-3</title>
+<link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+<header>
+  <h1>Resultado de aprendizaje 3</h1>
+  <p>Evaluar la oferta de proveedores con respecto a la respuesta de incidencias por medio de las operaciones relacionadas con la seguridad en la nube.</p>
+</header>
+<nav class="menu">
+  <a href="index.html">← Inicio</a>
+  <a href="#aplicacion">Aplicación de seguridad</a>
+  <a href="#administracion">Administración de seguridad</a>
+  <a href="#operaciones">Operaciones de seguridad</a>
+  <a href="#incidentes">Respuesta a incidentes</a>
+  <a href="#practica">Práctica</a>
+</nav>
+<main>
+
+<!-- ===================== 1. APLICACIÓN ===================== -->
+<section id="aplicacion">
+  <h2>1. Aplicación de seguridad en la nube</h2>
+
+  <h3>Concepto de Cloud Broker</h3>
+  <p>Un <strong>cloud broker (intermediario de servicios en la nube)</strong> es una persona, empresa o plataforma que actúa entre el cliente y uno o varios proveedores de nube. Ayuda a elegir, contratar, integrar, administrar y asegurar los servicios.</p>
+  <ul>
+    <li><strong>Intermediación:</strong> agrega valor a un servicio (ej. añade seguridad, reportes o administración de identidades).</li>
+    <li><strong>Agregación:</strong> combina servicios de varios proveedores en uno solo.</li>
+    <li><strong>Arbitraje:</strong> elige dinámicamente el proveedor más conveniente (precio, rendimiento).</li>
+  </ul>
+  <p>Relacionado: <strong>CASB (Cloud Access Security Broker)</strong>, herramienta de seguridad que se ubica entre los usuarios y las aplicaciones en la nube para aplicar políticas: visibilidad del uso, control de accesos, prevención de fuga de datos y detección de amenazas. Ej.: Microsoft Defender for Cloud Apps, Netskope.</p>
+
+  <h3>Amenazas y riesgos</h3>
+  <div class="caja"><strong>Amenaza:</strong> cualquier evento o actor que puede causar daño (un atacante, un malware, un error humano, un desastre). <br><strong>Vulnerabilidad:</strong> debilidad que puede ser aprovechada. <br><strong>Riesgo:</strong> probabilidad de que una amenaza aproveche una vulnerabilidad multiplicada por el impacto. <em>Riesgo = Probabilidad × Impacto</em>.</div>
+
+  <h3>Principales amenazas en la nube</h3>
+  <div class="tabla"><table>
+    <tr><th>Amenaza</th><th>Descripción</th></tr>
+    <tr><td>Configuraciones erróneas</td><td>Buckets o bases de datos expuestos públicamente por error. Es la causa más frecuente de fugas.</td></tr>
+    <tr><td>Robo de cuentas y credenciales</td><td>Phishing, contraseñas débiles o llaves publicadas en GitHub.</td></tr>
+    <tr><td>Interfaces y APIs inseguras</td><td>APIs sin autenticación o con errores permiten acceder a datos.</td></tr>
+    <tr><td>Amenazas internas</td><td>Empleados o ex empleados que abusan de sus accesos.</td></tr>
+    <tr><td>Malware y ransomware</td><td>Cifran o roban la información almacenada en la nube.</td></tr>
+    <tr><td>Denegación de servicio (DDoS)</td><td>Saturan el servicio para dejarlo fuera de línea.</td></tr>
+    <tr><td>Fugas de datos (data breach)</td><td>Exposición de información confidencial.</td></tr>
+    <tr><td>Abuso del servicio</td><td>Uso de cuentas robadas para criptominería o enviar spam.</td></tr>
+  </table></div>
+
+  <h3>Riesgos</h3>
+  <ul>
+    <li><strong>Pérdida de control</strong> y visibilidad sobre la infraestructura.</li>
+    <li><strong>Dependencia del proveedor</strong> (lock-in) y quiebra o cierre del proveedor.</li>
+    <li><strong>Incumplimiento legal</strong> por la ubicación de los datos en otros países.</li>
+    <li><strong>Pérdida de datos</strong> sin respaldo.</li>
+    <li><strong>Interrupción del servicio</strong> (caída del proveedor o de Internet).</li>
+    <li><strong>Aislamiento deficiente</strong> entre clientes (multi-inquilino).</li>
+    <li><strong>Daño reputacional</strong> y sanciones económicas.</li>
+  </ul>
+
+  <h3>Reducción de riesgos</h3>
+  <p>Estrategias de tratamiento del riesgo: <strong>evitar</strong>, <strong>mitigar</strong> (reducir), <strong>transferir</strong> (seguros, contratos) o <strong>aceptar</strong>. Controles recomendados:</p>
+  <ul>
+    <li>MFA y mínimo privilegio en todas las cuentas.</li>
+    <li>Cifrado en reposo y en tránsito.</li>
+    <li>Revisión automática de configuraciones (CSPM — Cloud Security Posture Management).</li>
+    <li>Respaldos regla <strong>3-2-1</strong>: 3 copias, 2 medios distintos, 1 fuera del sitio.</li>
+    <li>Monitoreo continuo y alertas.</li>
+    <li>Capacitación de usuarios contra phishing.</li>
+    <li>Contratos y SLA claros con el proveedor.</li>
+  </ul>
+
+  <h3>Desarrollo de aplicaciones en forma segura</h3>
+  <p>Consiste en integrar la seguridad en todas las etapas del ciclo de vida del software (<strong>SDLC seguro</strong> / <strong>DevSecOps</strong>, "seguridad desde el diseño").</p>
+  <ul>
+    <li><strong>Requisitos y diseño:</strong> modelado de amenazas, definir qué datos son sensibles.</li>
+    <li><strong>Codificación:</strong> seguir guías como <strong>OWASP Top 10</strong>; validar entradas, evitar inyección SQL y XSS.</li>
+    <li><strong>Pruebas:</strong> análisis estático (SAST), dinámico (DAST), escaneo de dependencias y de contenedores.</li>
+    <li><strong>Despliegue:</strong> secretos en gestores seguros, infraestructura como código revisada.</li>
+    <li><strong>Operación:</strong> monitoreo, parches y registros.</li>
+  </ul>
+
+  <h3>Modelos de identidad</h3>
+  <div class="tabla"><table>
+    <tr><th>Modelo</th><th>Descripción</th><th>Ejemplo</th></tr>
+    <tr><td>IAM (Identity and Access Management)</td><td>Gestión de identidades y permisos: quién es el usuario y qué puede hacer.</td><td>AWS IAM, Microsoft Entra ID.</td></tr>
+    <tr><td>Identidad centralizada / directorio</td><td>Todas las cuentas en un único directorio.</td><td>Active Directory.</td></tr>
+    <tr><td>Identidad federada</td><td>Una organización confía en la identidad emitida por otra, usando estándares como SAML, OAuth 2.0 u OpenID Connect.</td><td>"Iniciar sesión con Google" o con la cuenta del MEP.</td></tr>
+    <tr><td>SSO (Single Sign-On)</td><td>Inicio de sesión único para acceder a varias aplicaciones.</td><td>Una cuenta de Microsoft 365 para Teams, Outlook y OneDrive.</td></tr>
+    <tr><td>IDaaS (Identidad como servicio)</td><td>La gestión de identidades se contrata en la nube.</td><td>Okta, Auth0.</td></tr>
+    <tr><td>Control de acceso por roles (RBAC)</td><td>Permisos según el rol (docente, estudiante, administrador).</td><td>Roles en Google Classroom.</td></tr>
+    <tr><td>Zero Trust ("nunca confiar, siempre verificar")</td><td>Cada acceso se verifica según identidad, dispositivo y contexto, aunque esté dentro de la red.</td><td>Acceso condicional de Microsoft.</td></tr>
+  </table></div>
+</section>
+
+<!-- ===================== 2. ADMINISTRACIÓN ===================== -->
+<section id="administracion">
+  <h2>2. Administración de seguridad en la nube</h2>
+
+  <h3>Análisis de riesgos</h3>
+  <ol>
+    <li><strong>Identificar activos:</strong> datos, aplicaciones, cuentas, servidores.</li>
+    <li><strong>Identificar amenazas y vulnerabilidades.</strong></li>
+    <li><strong>Evaluar probabilidad e impacto</strong> (matriz de riesgo: bajo, medio, alto).</li>
+    <li><strong>Definir el tratamiento:</strong> evitar, mitigar, transferir o aceptar.</li>
+    <li><strong>Monitorear y revisar</strong> periódicamente.</li>
+  </ol>
+  <div class="tabla"><table>
+    <tr><th>Probabilidad \ Impacto</th><th>Bajo</th><th>Medio</th><th>Alto</th></tr>
+    <tr><td><strong>Alta</strong></td><td>Medio</td><td>Alto</td><td>Alto</td></tr>
+    <tr><td><strong>Media</strong></td><td>Bajo</td><td>Medio</td><td>Alto</td></tr>
+    <tr><td><strong>Baja</strong></td><td>Bajo</td><td>Bajo</td><td>Medio</td></tr>
+  </table></div>
+  <p>Marcos de referencia: ISO/IEC 27005, NIST SP 800-30, CSA Cloud Controls Matrix (CCM).</p>
+
+  <h3>Gobernanza de datos</h3>
+  <p>Es el conjunto de políticas, roles y procesos que definen <strong>cómo se gestionan los datos</strong> en la organización: quién es dueño de cada dato, cómo se clasifica, quién accede, cuánto tiempo se conserva y cómo se elimina.</p>
+  <ul>
+    <li><strong>Propietario de datos:</strong> decide sobre el uso del dato.</li>
+    <li><strong>Custodio:</strong> lo administra técnicamente (a veces el proveedor).</li>
+    <li><strong>Clasificación:</strong> público, interno, confidencial, restringido.</li>
+    <li><strong>Calidad, trazabilidad y auditoría</strong> de los datos.</li>
+  </ul>
+
+  <h3>Implicaciones legales</h3>
+  <ul>
+    <li><strong>Soberanía y ubicación de los datos:</strong> los datos quedan sujetos a las leyes del país donde se almacenan.</li>
+    <li><strong>Costa Rica:</strong> Ley N.º 8968 de Protección de la Persona frente al Tratamiento de sus Datos Personales, supervisada por la <strong>PRODHAB</strong>. Ley 9048 (delitos informáticos, reforma al Código Penal).</li>
+    <li><strong>Internacional:</strong> RGPD / GDPR (Unión Europea), CLOUD Act (Estados Unidos).</li>
+    <li><strong>Contratos y SLA:</strong> definir responsabilidades, disponibilidad, notificación de incidentes y devolución de datos al terminar el contrato.</li>
+    <li><strong>E-discovery:</strong> obligación de entregar información ante una investigación judicial.</li>
+    <li><strong>Propiedad intelectual</strong> del software y de los datos.</li>
+  </ul>
+
+  <h3>Privacidad en servicios en la nube</h3>
+  <ul>
+    <li><strong>Consentimiento informado</strong> del titular para recolectar sus datos.</li>
+    <li><strong>Minimización:</strong> recolectar solo los datos necesarios.</li>
+    <li><strong>Derechos ARCO:</strong> Acceso, Rectificación, Cancelación y Oposición.</li>
+    <li><strong>Anonimización y seudonimización</strong> de datos personales.</li>
+    <li><strong>Privacidad desde el diseño</strong> y por defecto.</li>
+    <li>Revisar las políticas de privacidad del proveedor y certificaciones como <strong>ISO/IEC 27018</strong> (protección de datos personales en la nube).</li>
+  </ul>
+</section>
+
+<!-- ===================== 3. OPERACIONES ===================== -->
+<section id="operaciones">
+  <h2>3. Operaciones de seguridad en la nube</h2>
+
+  <h3>Seguridad como servicio (SECaaS)</h3>
+  <p>Modelo en el que los servicios de seguridad se contratan en la nube a un proveedor especializado, en lugar de instalarlos y mantenerlos localmente.</p>
+  <div class="tabla"><table>
+    <tr><th>Servicio</th><th>Ejemplo</th></tr>
+    <tr><td>Antivirus / EDR en la nube</td><td>Microsoft Defender, CrowdStrike.</td></tr>
+    <tr><td>Filtrado de correo y web</td><td>Proofpoint, Cisco Umbrella.</td></tr>
+    <tr><td>Firewall y WAF como servicio</td><td>Cloudflare, AWS WAF.</td></tr>
+    <tr><td>Gestión de identidades (IDaaS)</td><td>Okta, Microsoft Entra ID.</td></tr>
+    <tr><td>SIEM / monitoreo</td><td>Microsoft Sentinel, Splunk Cloud.</td></tr>
+    <tr><td>SOC como servicio</td><td>Centro de operaciones de seguridad externo 24/7.</td></tr>
+    <tr><td>Respaldo y recuperación</td><td>Veeam, Acronis Cloud.</td></tr>
+  </table></div>
+
+  <h3>Proveedores</h3>
+  <p>Principales proveedores: <strong>Amazon Web Services (AWS)</strong>, <strong>Microsoft Azure</strong>, <strong>Google Cloud</strong>, <strong>Oracle Cloud</strong>, <strong>IBM Cloud</strong>, además de proveedores regionales.</p>
+
+  <div class="grid">
+    <div class="tarjeta">
+      <h3>Selección</h3>
+      <ul>
+        <li>Definir necesidades (servicio, presupuesto, datos).</li>
+        <li>Certificaciones: ISO 27001, 27017, 27018, SOC 2, PCI DSS.</li>
+        <li>Ubicación de los centros de datos.</li>
+        <li>SLA de disponibilidad y de respuesta a incidentes.</li>
+        <li>Soporte en español y horarios.</li>
+        <li>Portabilidad y salida del contrato.</li>
+      </ul>
+    </div>
+    <div class="tarjeta">
+      <h3>Evaluación</h3>
+      <ul>
+        <li>Cuestionarios de seguridad (CSA CAIQ, registro STAR).</li>
+        <li>Revisión de auditorías e informes de terceros.</li>
+        <li>Historial de incidentes y transparencia.</li>
+        <li>Prueba de concepto (piloto).</li>
+        <li>Matriz de evaluación con criterios y puntajes.</li>
+      </ul>
+    </div>
+    <div class="tarjeta">
+      <h3>Administración</h3>
+      <ul>
+        <li>Seguimiento del cumplimiento del SLA.</li>
+        <li>Revisiones periódicas de riesgos y auditorías.</li>
+        <li>Control de costos y consumo.</li>
+        <li>Gestión de cambios y comunicación.</li>
+        <li>Plan de salida (cómo recuperar los datos).</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Ejemplo de matriz para evaluar proveedores</h3>
+  <div class="tabla"><table>
+    <tr><th>Criterio</th><th>Peso</th><th>Proveedor A</th><th>Proveedor B</th></tr>
+    <tr><td>Certificaciones de seguridad</td><td>25 %</td><td>5</td><td>4</td></tr>
+    <tr><td>Tiempo de respuesta a incidentes (SLA)</td><td>25 %</td><td>4</td><td>5</td></tr>
+    <tr><td>Ubicación y cumplimiento legal</td><td>20 %</td><td>3</td><td>4</td></tr>
+    <tr><td>Costo</td><td>15 %</td><td>4</td><td>3</td></tr>
+    <tr><td>Soporte y portabilidad</td><td>15 %</td><td>4</td><td>4</td></tr>
+    <tr><th>Total ponderado (máx. 5)</th><th>100 %</th><th>4,05</th><th>4,10</th></tr>
+  </table></div>
+</section>
+
+<!-- ===================== 4. RESPUESTA A INCIDENTES ===================== -->
+<section id="incidentes">
+  <h2>4. Respuesta a incidentes</h2>
+  <p>Un <strong>incidente de seguridad</strong> es un evento que compromete la confidencialidad, integridad o disponibilidad de la información (ej. acceso no autorizado, ransomware, fuga de datos). La respuesta a incidentes es el proceso organizado para detectarlos, contenerlos y recuperarse. Guía de referencia: <strong>NIST SP 800-61</strong>.</p>
+  <div class="tabla"><table>
+    <tr><th>Fase</th><th>Acciones</th><th>Ejemplo en la nube</th></tr>
+    <tr><td>1. Preparación</td><td>Plan de respuesta, equipo (CSIRT), herramientas, contactos del proveedor, capacitación.</td><td>Activar registros (CloudTrail), definir alertas, simulacros.</td></tr>
+    <tr><td>2. Detección y análisis</td><td>Identificar el incidente, confirmar, clasificar su gravedad.</td><td>Alerta: una cuenta crea 50 servidores a las 3 a.m.</td></tr>
+    <tr><td>3. Contención</td><td>Limitar el daño a corto y largo plazo.</td><td>Desactivar las llaves robadas, aislar la VM infectada.</td></tr>
+    <tr><td>4. Erradicación</td><td>Eliminar la causa: malware, cuentas creadas por el atacante, vulnerabilidad.</td><td>Aplicar parches, borrar recursos maliciosos.</td></tr>
+    <tr><td>5. Recuperación</td><td>Restaurar los servicios y monitorear.</td><td>Restaurar desde snapshot o respaldo limpio.</td></tr>
+    <tr><td>6. Lecciones aprendidas</td><td>Informe, mejoras al plan y a los controles.</td><td>Activar MFA obligatorio a todos.</td></tr>
+  </table></div>
+  <div class="caja"><strong>En la nube el cliente y el proveedor responden juntos:</strong> el contrato debe indicar cómo y en cuánto tiempo el proveedor notifica un incidente, qué registros entrega y quién hace cada tarea. En Costa Rica, ante incidentes nacionales se puede reportar al <strong>CSIRT-CR</strong> (MICITT). La Ley 8968 obliga a informar a los afectados cuando hay vulneración de datos personales.</div>
+</section>
+
+<!-- ===================== PRÁCTICA ===================== -->
+<section id="practica">
+  <h2>Práctica — RA3</h2>
+  <div class="actividad">
+    <h3>Actividad 1: Evaluación de proveedores</h3>
+    <p>En grupos, investiguen dos proveedores (ej. AWS y Azure) y completen una matriz de evaluación con al menos 5 criterios, dando especial peso a la <strong>respuesta a incidentes</strong> (tiempo de notificación, soporte 24/7, herramientas de detección). Presenten su recomendación.</p>
+  </div>
+  <div class="actividad">
+    <h3>Actividad 2: Caso de incidente</h3>
+    <p>Un estudiante sube por error a GitHub la llave de acceso de la cuenta de nube del colegio. Horas después la factura muestra consumo anormal. Describa qué haría en cada una de las 6 fases de respuesta a incidentes.</p>
+    <details><summary>Posible respuesta</summary>Preparación: tener alertas de presupuesto y plan. Detección: alerta de consumo anormal. Contención: revocar la llave, bloquear el usuario. Erradicación: eliminar recursos creados por el atacante, revisar otras credenciales. Recuperación: nueva llave en un gestor de secretos, monitoreo. Lecciones: capacitación, escaneo de secretos en repositorios, MFA.</details>
+  </div>
+  <div class="actividad">
+    <h3>Autoevaluación</h3>
+    <details><summary>1. ¿Qué es un cloud broker?</summary>Un intermediario entre el cliente y uno o varios proveedores, que ayuda a seleccionar, integrar, administrar y asegurar servicios.</details>
+    <details><summary>2. Diferencia entre amenaza y riesgo.</summary>La amenaza es lo que puede causar daño; el riesgo es la probabilidad de que ocurra por el impacto que tendría.</details>
+    <details><summary>3. ¿Qué es la identidad federada?</summary>Un modelo en que una organización confía en la identidad emitida por otra (SAML, OAuth, OpenID Connect), ej. "Iniciar sesión con Google".</details>
+    <details><summary>4. ¿Qué ley protege los datos personales en Costa Rica?</summary>La Ley 8968, supervisada por la PRODHAB.</details>
+    <details><summary>5. Mencione las fases de respuesta a incidentes.</summary>Preparación, detección y análisis, contención, erradicación, recuperación y lecciones aprendidas.</details>
+    <details><summary>6. ¿Qué es SECaaS?</summary>Seguridad como servicio: contratar servicios de seguridad (antivirus, firewall, SIEM, identidad) desde la nube.</details>
+  </div>
+</section>
+
+<a class="volver" href="index.html">← Volver al inicio</a>
+</main>
+<footer>Ciberseguridad · 11°-3 · Material de estudio — RA3</footer>
+</body>
+</html>

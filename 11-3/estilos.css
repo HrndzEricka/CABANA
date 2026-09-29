@@ -1,0 +1,31 @@
+:root{--navy:#14213d;--azul:#1d4ed8;--celeste:#e0ecff;--texto:#1f2937;--gris:#6b7280;--borde:#d1d5db;--fondo:#f8fafc;--tarjeta:#fff;--ok:#047857;--alerta:#b45309}
+@media (prefers-color-scheme:dark){:root{--navy:#c7d7ff;--azul:#8ab4ff;--celeste:#1e293b;--texto:#e5e7eb;--gris:#9ca3af;--borde:#374151;--fondo:#0f172a;--tarjeta:#111827;--ok:#34d399;--alerta:#fbbf24}}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--fondo);color:var(--texto);line-height:1.6}
+header{background:#14213d;color:#fff;padding:24px 16px}
+header h1{margin:0 0 4px;font-size:1.6rem}
+header p{margin:0;opacity:.85}
+nav.menu{position:sticky;top:0;background:var(--tarjeta);border-bottom:1px solid var(--borde);padding:8px 16px;display:flex;flex-wrap:wrap;gap:8px;z-index:5}
+nav.menu a{color:var(--azul);text-decoration:none;font-size:.9rem;padding:4px 8px;border-radius:6px}
+nav.menu a:hover{background:var(--celeste)}
+main{max-width:960px;margin:0 auto;padding:16px}
+section{background:var(--tarjeta);border:1px solid var(--borde);border-radius:12px;padding:20px;margin:20px 0}
+h2{color:var(--navy);margin-top:0;border-bottom:3px solid var(--azul);padding-bottom:6px}
+h3{color:var(--navy);margin-bottom:6px}
+.caja{background:var(--celeste);border-left:4px solid var(--azul);padding:12px 16px;border-radius:8px;margin:12px 0}
+.ejemplo{border-left:4px solid var(--ok);padding:8px 14px;margin:12px 0;background:transparent}
+.ejemplo::before{content:"Ejemplo: ";font-weight:700;color:var(--ok)}
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.95rem}
+th,td{border:1px solid var(--borde);padding:8px;text-align:left;vertical-align:top}
+th{background:var(--celeste);color:var(--navy)}
+.tabla{overflow-x:auto}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.tarjeta{border:1px solid var(--borde);border-radius:10px;padding:14px}
+.tarjeta h3{margin-top:0}
+.actividad{border:2px dashed var(--alerta);border-radius:10px;padding:14px;margin-top:16px}
+.actividad h3{color:var(--alerta);margin-top:0}
+details{border:1px solid var(--borde);border-radius:8px;padding:8px 12px;margin:8px 0}
+summary{cursor:pointer;font-weight:600}
+footer{text-align:center;color:var(--gris);font-size:.85rem;padding:24px 16px}
+a.volver{display:inline-block;margin:12px 0;color:var(--azul)}
+@media print{nav.menu,a.volver{display:none}section{break-inside:avoid-page;border:none}header{background:#fff;color:#000}}

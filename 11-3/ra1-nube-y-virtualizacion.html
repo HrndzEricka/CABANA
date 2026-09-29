@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RA1 — Nube y Virtualización · 11°-3</title>
+<link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+<header>
+  <h1>Resultado de aprendizaje 1</h1>
+  <p>Analizar los componentes de la computación en la nube y el rol de la virtualización mediante modelos de implementación.</p>
+</header>
+<nav class="menu">
+  <a href="index.html">← Inicio</a>
+  <a href="#nube-conceptos">Computación en la nube: conceptos</a>
+  <a href="#roles">Roles</a>
+  <a href="#virtualizacion">Virtualización</a>
+  <a href="#software">Software de virtualización</a>
+  <a href="#nube-caracteristicas">Nube: características</a>
+  <a href="#componentes">Componentes y despliegue</a>
+  <a href="#practica">Práctica</a>
+</nav>
+<main>
+
+<!-- ===================== 1. COMPUTACIÓN EN LA NUBE: CONCEPTOS ===================== -->
+<section id="nube-conceptos">
+  <h2>1. Computación en la nube: conceptos</h2>
+
+  <h3>Cloud computing (computación en la nube)</h3>
+  <p>Es un modelo que permite acceder <strong>a través de Internet y bajo demanda</strong> a recursos informáticos (servidores, almacenamiento, bases de datos, redes, software) que están en centros de datos de un proveedor. El usuario no compra ni mantiene el equipo físico: <strong>usa el recurso y paga según lo que consume</strong>.</p>
+  <div class="caja"><strong>Idea clave:</strong> "la nube" no es algo abstracto; son computadoras reales ubicadas en centros de datos de otra empresa, a las que accedemos por la red.</div>
+  <div class="ejemplo">Guardar fotos en Google Drive, ver una serie en Netflix o usar Microsoft 365 desde el navegador.</div>
+
+  <h3>Modelos de negocio en la nube</h3>
+  <p>Son las formas en que los proveedores cobran y ofrecen sus servicios:</p>
+  <div class="tabla"><table>
+    <tr><th>Modelo</th><th>Descripción</th><th>Ejemplo</th></tr>
+    <tr><td>Pago por uso (<em>pay-as-you-go</em>)</td><td>Se paga solo por lo que se consume (horas, GB, peticiones).</td><td>Una máquina virtual en AWS cobrada por hora.</td></tr>
+    <tr><td>Suscripción</td><td>Pago fijo mensual o anual por un servicio.</td><td>Microsoft 365, Spotify, Canva Pro.</td></tr>
+    <tr><td>Freemium</td><td>Versión básica gratis y funciones avanzadas pagadas.</td><td>Dropbox (2 GB gratis), Google Drive (15 GB gratis).</td></tr>
+    <tr><td>Instancias reservadas</td><td>Se compromete un uso de 1 a 3 años a cambio de descuento.</td><td>Servidores reservados en Azure.</td></tr>
+    <tr><td>Publicidad</td><td>El servicio es gratuito y se financia con anuncios.</td><td>Gmail gratuito.</td></tr>
+  </table></div>
+
+  <h3>Máquina virtual (VM)</h3>
+  <p>Es una <strong>computadora simulada por software</strong> que funciona dentro de una computadora física (anfitrión o <em>host</em>). Tiene su propio sistema operativo (invitado o <em>guest</em>), CPU virtual, memoria, disco y red. Un programa llamado <strong>hipervisor</strong> reparte los recursos físicos entre varias VM.</p>
+  <div class="ejemplo">En una computadora con Windows se instala VirtualBox y dentro se crea una VM con Linux Ubuntu.</div>
+
+  <h3>Contenedor y API</h3>
+  <p><strong>Contenedor:</strong> paquete ligero que incluye una aplicación y todo lo que necesita (librerías, configuración) para ejecutarse. A diferencia de la VM, <strong>no lleva un sistema operativo completo</strong>: comparte el núcleo (kernel) del sistema anfitrión, por eso arranca en segundos y ocupa menos. Herramientas: <strong>Docker</strong>, <strong>Kubernetes</strong> (orquestador de contenedores).</p>
+  <p><strong>API (Interfaz de Programación de Aplicaciones):</strong> conjunto de reglas que permite que dos programas se comuniquen. En la nube, casi todo se controla mediante APIs: crear una VM, subir un archivo o consultar una base de datos.</p>
+  <div class="tabla"><table>
+    <tr><th>Aspecto</th><th>Máquina virtual</th><th>Contenedor</th></tr>
+    <tr><td>Sistema operativo</td><td>Completo en cada VM</td><td>Comparte el kernel del host</td></tr>
+    <tr><td>Tamaño</td><td>Gigabytes</td><td>Megabytes</td></tr>
+    <tr><td>Arranque</td><td>Minutos</td><td>Segundos</td></tr>
+    <tr><td>Aislamiento</td><td>Mayor</td><td>Menor (a nivel de proceso)</td></tr>
+    <tr><td>Herramienta típica</td><td>VMware, VirtualBox, Hyper-V</td><td>Docker, Kubernetes</td></tr>
+  </table></div>
+</section>
+
+<!-- ===================== 2. ROLES ===================== -->
+<section id="roles">
+  <h2>2. Roles del modelo de relación en la nube</h2>
+  <div class="grid">
+    <div class="tarjeta">
+      <h3>Cliente final o consumidor</h3>
+      <p>Persona u organización que <strong>usa</strong> los servicios de la nube. Elige el servicio, lo configura según sus necesidades, paga por él y es responsable de sus datos, usuarios y contraseñas.</p>
+      <p><em>Ej.: un colegio que usa Google Workspace para sus estudiantes.</em></p>
+    </div>
+    <div class="tarjeta">
+      <h3>Proveedor o prestador</h3>
+      <p>Empresa que <strong>ofrece</strong> los recursos: construye y mantiene los centros de datos, el hardware, la red, la virtualización y garantiza la disponibilidad según un acuerdo de nivel de servicio (<strong>SLA</strong>).</p>
+      <p><em>Ej.: Amazon Web Services, Microsoft Azure, Google Cloud.</em></p>
+    </div>
+  </div>
+  <div class="caja"><strong>Modelo de responsabilidad compartida:</strong> el proveedor protege <em>la nube</em> (infraestructura física, red, hipervisor); el cliente protege <em>lo que pone en la nube</em> (datos, cuentas, configuraciones, accesos).</div>
+  <p>Otros roles reconocidos (NIST): <strong>intermediario o bróker</strong> (gestiona servicios entre cliente y proveedores), <strong>auditor</strong> (evalúa seguridad y cumplimiento) y <strong>portador o carrier</strong> (proveedor de conectividad).</p>
+</section>
+
+<!-- ===================== 3. VIRTUALIZACIÓN ===================== -->
+<section id="virtualizacion">
+  <h2>3. Virtualización</h2>
+
+  <h3>Concepto</h3>
+  <p>La virtualización es la tecnología que permite <strong>crear versiones virtuales (simuladas por software) de recursos físicos</strong>, como servidores, almacenamiento, redes o sistemas operativos. Así, un solo equipo físico puede ejecutar varios sistemas independientes al mismo tiempo. El software que lo hace posible es el <strong>hipervisor</strong>.</p>
+  <ul>
+    <li><strong>Hipervisor tipo 1 (bare metal / nativo):</strong> se instala directamente sobre el hardware. Ej.: VMware ESXi, Microsoft Hyper-V Server, Xen.</li>
+    <li><strong>Hipervisor tipo 2 (alojado / hosted):</strong> se instala como un programa sobre un sistema operativo. Ej.: VirtualBox, VMware Workstation, Virtual PC.</li>
+  </ul>
+
+  <h3>Conceptos relacionados</h3>
+  <div class="tabla"><table>
+    <tr><th>Término</th><th>Significado</th></tr>
+    <tr><td>Computación en la nube</td><td>Servicios informáticos ofrecidos por Internet bajo demanda. La virtualización es la <strong>base tecnológica</strong> que la hace posible.</td></tr>
+    <tr><td>Clúster</td><td>Grupo de computadoras (nodos) conectadas que trabajan juntas como si fueran una sola, para dar más potencia o alta disponibilidad (si un nodo falla, otro continúa).</td></tr>
+    <tr><td>CPD</td><td><strong>Centro de Procesamiento de Datos</strong>: instalación física donde se concentran servidores, almacenamiento y equipos de red de una organización, con energía de respaldo, climatización y seguridad física.</td></tr>
+    <tr><td>Data Center</td><td>Término en inglés equivalente a CPD. Los proveedores de nube tienen enormes <em>data centers</em> distribuidos en regiones del mundo.</td></tr>
+    <tr><td>CRM</td><td><strong>Customer Relationship Management</strong>: software para gestionar la relación con clientes (ventas, contactos, seguimiento). Hoy suele ofrecerse desde la nube como SaaS. Ej.: Salesforce, HubSpot.</td></tr>
+    <tr><td>Otros: host / guest</td><td>Host = equipo físico anfitrión; guest = sistema virtual invitado.</td></tr>
+    <tr><td>Otros: snapshot</td><td>"Fotografía" del estado de una VM que permite volver atrás si algo falla.</td></tr>
+    <tr><td>Otros: ERP</td><td>Enterprise Resource Planning: software que integra finanzas, inventario, recursos humanos, etc. (Ej.: SAP).</td></tr>
+  </table></div>
+
+  <h3>Historia de la virtualización</h3>
+  <div class="tabla"><table>
+    <tr><th>Año</th><th>Hecho</th></tr>
+    <tr><td>1960s</td><td>IBM desarrolla el sistema CP-40 / CP-67 para mainframes, que permitía dividir un gran computador entre varios usuarios (tiempo compartido).</td></tr>
+    <tr><td>1972</td><td>IBM lanza VM/370, primer sistema comercial de máquinas virtuales.</td></tr>
+    <tr><td>1998–1999</td><td>Se funda VMware y lanza VMware Workstation para computadoras x86.</td></tr>
+    <tr><td>2003</td><td>Aparece Xen (Universidad de Cambridge), hipervisor de código abierto. Microsoft adquiere Virtual PC.</td></tr>
+    <tr><td>2005–2006</td><td>Intel (VT-x) y AMD (AMD-V) agregan soporte de virtualización en los procesadores.</td></tr>
+    <tr><td>2007</td><td>Se libera VirtualBox (Innotek, luego Sun y Oracle).</td></tr>
+    <tr><td>2008</td><td>Microsoft lanza Hyper-V con Windows Server 2008.</td></tr>
+    <tr><td>2013</td><td>Surge Docker y se populariza la virtualización con contenedores.</td></tr>
+  </table></div>
+
+  <h3>Ventajas de la virtualización</h3>
+  <ul>
+    <li><strong>Ahorro de costos:</strong> menos servidores físicos, menos energía y espacio.</li>
+    <li><strong>Mejor aprovechamiento</strong> del hardware (un servidor pasa de usar 15 % a 70–80 % de su capacidad).</li>
+    <li><strong>Aislamiento:</strong> si una VM falla o se infecta, no afecta a las demás.</li>
+    <li><strong>Rapidez:</strong> crear un servidor nuevo toma minutos, no semanas.</li>
+    <li><strong>Respaldo y recuperación:</strong> snapshots y copias de VM completas.</li>
+    <li><strong>Pruebas seguras:</strong> laboratorios para probar software o malware sin riesgo.</li>
+    <li><strong>Migración:</strong> mover una VM de un servidor físico a otro sin apagarla.</li>
+  </ul>
+
+  <h3>Tipos de virtualización</h3>
+  <div class="tabla"><table>
+    <tr><th>Tipo</th><th>Qué virtualiza</th><th>Ejemplo</th></tr>
+    <tr><td>De servidores</td><td>Divide un servidor físico en varios servidores virtuales.</td><td>VMware ESXi con 10 VM.</td></tr>
+    <tr><td>De escritorio (VDI)</td><td>El escritorio del usuario corre en un servidor y se accede remotamente.</td><td>Windows 365, Citrix.</td></tr>
+    <tr><td>De sistema operativo</td><td>Varios entornos aislados sobre un mismo kernel.</td><td>Contenedores Docker.</td></tr>
+    <tr><td>De aplicaciones</td><td>La aplicación se ejecuta aislada sin instalarse en el equipo.</td><td>App-V, aplicaciones web.</td></tr>
+    <tr><td>De almacenamiento</td><td>Une varios discos físicos en un solo almacenamiento lógico.</td><td>SAN, RAID virtual.</td></tr>
+    <tr><td>De red</td><td>Crea redes lógicas independientes del cableado físico.</td><td>VLAN, SDN, VPN.</td></tr>
+    <tr><td>De datos</td><td>Acceso unificado a datos de distintas fuentes.</td><td>Capas de integración de datos.</td></tr>
+  </table></div>
+
+  <h3>Rol de la virtualización en la nube</h3>
+  <p>La virtualización es el <strong>cimiento de la computación en la nube</strong>. Gracias a ella el proveedor puede:</p>
+  <ul>
+    <li>Dividir sus data centers en miles de recursos virtuales y <strong>compartirlos entre muchos clientes</strong> (multi-inquilino o <em>multi-tenant</em>) de forma aislada.</li>
+    <li>Entregar recursos <strong>bajo demanda y en minutos</strong> (autoservicio).</li>
+    <li>Aumentar o reducir recursos automáticamente (<strong>elasticidad</strong>).</li>
+    <li><strong>Medir el consumo</strong> de cada cliente para cobrarle.</li>
+  </ul>
+</section>
+
+<!-- ===================== 4. SOFTWARE DE VIRTUALIZACIÓN ===================== -->
+<section id="software">
+  <h2>4. Software de virtualización</h2>
+  <div class="tabla"><table>
+    <tr><th>Software</th><th>Empresa</th><th>Tipo de hipervisor</th><th>Características</th></tr>
+    <tr><td><strong>VMware</strong> (ESXi / vSphere / Workstation)</td><td>VMware (Broadcom)</td><td>ESXi: tipo 1 · Workstation: tipo 2</td><td>Líder en empresas. vSphere gestiona muchos servidores ESXi; permite vMotion (mover VM encendidas). Workstation Pro es gratuito para uso personal.</td></tr>
+    <tr><td><strong>Xen</strong></td><td>Proyecto de código abierto (Linux Foundation)</td><td>Tipo 1</td><td>Gratuito, usa paravirtualización. Fue la base de Amazon EC2 en sus inicios. Citrix Hypervisor (XenServer) se basa en él.</td></tr>
+    <tr><td><strong>Microsoft Hyper-V Server</strong></td><td>Microsoft</td><td>Tipo 1</td><td>Integrado en Windows Server y Windows 10/11 Pro. Base de Microsoft Azure. Se administra con Hyper-V Manager o PowerShell.</td></tr>
+    <tr><td><strong>VirtualBox</strong></td><td>Oracle</td><td>Tipo 2</td><td>Gratuito y de código abierto. Funciona en Windows, Linux y macOS. Ideal para aprender y hacer laboratorios.</td></tr>
+    <tr><td><strong>Virtual PC</strong></td><td>Connectix → Microsoft</td><td>Tipo 2</td><td>Permitía ejecutar versiones antiguas de Windows. Se usó para el "Modo XP" de Windows 7. Hoy está descontinuado y fue reemplazado por Hyper-V.</td></tr>
+  </table></div>
+</section>
+
+<!-- ===================== 5. NUBE: CARACTERÍSTICAS ===================== -->
+<section id="nube-caracteristicas">
+  <h2>5. Computación en la nube: características, historia y usos</h2>
+
+  <h3>Características esenciales (NIST)</h3>
+  <ol>
+    <li><strong>Autoservicio bajo demanda:</strong> el cliente obtiene recursos sin hablar con nadie del proveedor.</li>
+    <li><strong>Amplio acceso a la red:</strong> se accede desde cualquier dispositivo con Internet.</li>
+    <li><strong>Agrupación de recursos (pooling):</strong> los recursos se comparten entre muchos clientes.</li>
+    <li><strong>Elasticidad rápida:</strong> crece o se reduce según la demanda.</li>
+    <li><strong>Servicio medido:</strong> se mide y se cobra el consumo real.</li>
+  </ol>
+
+  <h3>Historia</h3>
+  <div class="tabla"><table>
+    <tr><th>Año</th><th>Hecho</th></tr>
+    <tr><td>1961</td><td>John McCarthy propone que la computación podría venderse como un servicio público, igual que la electricidad.</td></tr>
+    <tr><td>1969</td><td>Nace ARPANET, antecesora de Internet. J.C.R. Licklider imagina una "red intergaláctica" de computadoras.</td></tr>
+    <tr><td>1999</td><td>Salesforce ofrece software empresarial a través de un sitio web (inicio del SaaS).</td></tr>
+    <tr><td>2006</td><td>Amazon lanza AWS con S3 (almacenamiento) y EC2 (servidores virtuales). Google populariza el término <em>cloud computing</em>.</td></tr>
+    <tr><td>2008</td><td>Google App Engine (PaaS).</td></tr>
+    <tr><td>2010</td><td>Microsoft Azure disponible comercialmente. Nace OpenStack (nube de código abierto).</td></tr>
+    <tr><td>2011</td><td>El NIST publica la definición oficial de computación en la nube (SP 800-145).</td></tr>
+    <tr><td>2014 en adelante</td><td>Computación sin servidor (<em>serverless</em>, AWS Lambda), contenedores, multicloud y servicios de inteligencia artificial en la nube.</td></tr>
+  </table></div>
+
+  <h3>Tipos de soluciones (modelos de servicio)</h3>
+  <div class="grid">
+    <div class="tarjeta"><h3>IaaS</h3><p>Infraestructura como servicio: se alquilan servidores virtuales, redes y almacenamiento.<br><em>Ej.: AWS EC2, Azure VM.</em></p></div>
+    <div class="tarjeta"><h3>PaaS</h3><p>Plataforma como servicio: entorno listo para desarrollar y publicar aplicaciones.<br><em>Ej.: Google App Engine, Heroku.</em></p></div>
+    <div class="tarjeta"><h3>SaaS</h3><p>Software como servicio: aplicación lista para usar desde el navegador.<br><em>Ej.: Gmail, Microsoft 365, Canva.</em></p></div>
+    <div class="tarjeta"><h3>Otros (XaaS)</h3><p>FaaS (funciones/serverless), DaaS (escritorio), BaaS (respaldo), STaaS (almacenamiento), SECaaS (seguridad).</p></div>
+  </div>
+
+  <h3>Ventajas</h3>
+  <ul>
+    <li>No hay que invertir en equipos: se pasa de <strong>gasto de capital (CAPEX)</strong> a <strong>gasto operativo (OPEX)</strong>.</li>
+    <li>Acceso desde cualquier lugar y dispositivo.</li>
+    <li>Escalabilidad y elasticidad inmediatas.</li>
+    <li>Actualizaciones y mantenimiento a cargo del proveedor.</li>
+    <li>Alta disponibilidad y respaldos en varias regiones.</li>
+    <li>Colaboración en tiempo real.</li>
+  </ul>
+
+  <h3>Seguridad en la nube (introducción)</h3>
+  <p>La seguridad se basa en la <strong>tríada CID</strong>: Confidencialidad, Integridad y Disponibilidad. Medidas básicas: autenticación multifactor (MFA), cifrado de datos, control de accesos por roles, copias de seguridad, monitoreo y cumplimiento de normas (ISO 27001, ISO 27017, ley de protección de datos). Recordar el <strong>modelo de responsabilidad compartida</strong>. <em>(Se profundiza en los resultados de aprendizaje 2 y 3.)</em></p>
+
+  <h3>Casos de uso</h3>
+  <div class="tabla"><table>
+    <tr><th>Caso</th><th>Ejemplo</th></tr>
+    <tr><td>Almacenamiento y respaldo</td><td>Google Drive, OneDrive, copias de seguridad de empresas.</td></tr>
+    <tr><td>Educación</td><td>Google Classroom, Microsoft Teams, plataformas Moodle.</td></tr>
+    <tr><td>Streaming</td><td>Netflix corre sobre AWS; Spotify sobre Google Cloud.</td></tr>
+    <tr><td>Comercio electrónico</td><td>Tiendas que aumentan servidores en Black Friday.</td></tr>
+    <tr><td>Desarrollo y pruebas</td><td>Crear entornos de prueba en minutos.</td></tr>
+    <tr><td>Big Data e IA</td><td>Análisis de grandes volúmenes de datos y modelos de inteligencia artificial.</td></tr>
+    <tr><td>Recuperación ante desastres</td><td>Réplica de sistemas en otra región geográfica.</td></tr>
+  </table></div>
+</section>
+
+<!-- ===================== 6. COMPONENTES ===================== -->
+<section id="componentes">
+  <h2>6. Componentes computacionales en la nube</h2>
+  <p>Los componentes básicos son: <strong>cómputo</strong> (servidores/VM/contenedores), <strong>almacenamiento</strong>, <strong>redes</strong>, <strong>bases de datos</strong>, <strong>virtualización (hipervisor)</strong>, <strong>plataforma de gestión</strong> (consola, APIs) y <strong>servicios de seguridad</strong>. El usuario accede mediante un <strong>front-end</strong> (navegador, app) y el proveedor opera el <strong>back-end</strong> (data centers).</p>
+
+  <h3>Características de los servicios en la nube</h3>
+  <ul>
+    <li>Bajo demanda y autoservicio.</li>
+    <li>Multi-inquilino (varios clientes comparten la infraestructura de forma aislada).</li>
+    <li>Escalables y elásticos.</li>
+    <li>Medibles (pago por uso).</li>
+    <li>Resilientes (redundancia, alta disponibilidad).</li>
+    <li>Regidos por un SLA (acuerdo de nivel de servicio, ej. 99,9 % de disponibilidad).</li>
+  </ul>
+
+  <div class="grid">
+    <div class="tarjeta">
+      <h3>Ventajas</h3>
+      <ul>
+        <li>Reducción de costos iniciales.</li>
+        <li>Rapidez de implementación.</li>
+        <li>Escalabilidad.</li>
+        <li>Movilidad y trabajo remoto.</li>
+        <li>Seguridad física profesional del proveedor.</li>
+        <li>Continuidad del negocio.</li>
+      </ul>
+    </div>
+    <div class="tarjeta">
+      <h3>Desventajas o inconvenientes</h3>
+      <ul>
+        <li>Dependencia de la conexión a Internet.</li>
+        <li>Dependencia del proveedor (<em>vendor lock-in</em>).</li>
+        <li>Menor control sobre la infraestructura.</li>
+        <li>Riesgos de privacidad y ubicación de los datos.</li>
+        <li>Costos que crecen si no se controla el consumo.</li>
+        <li>Caídas del proveedor afectan a todos sus clientes.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Opciones de contratación</h3>
+  <div class="tabla"><table>
+    <tr><th>Opción</th><th>Descripción</th></tr>
+    <tr><td>Bajo demanda</td><td>Sin compromiso; se paga por hora/segundo de uso. Más caro, más flexible.</td></tr>
+    <tr><td>Reservada / compromiso</td><td>Contrato de 1 a 3 años con descuentos de hasta 70 %.</td></tr>
+    <tr><td>Instancias spot / interrumpibles</td><td>Capacidad sobrante muy barata, pero el proveedor puede retirarla.</td></tr>
+    <tr><td>Suscripción por usuario</td><td>Típico de SaaS: costo mensual por cada usuario.</td></tr>
+    <tr><td>Nivel gratuito (free tier)</td><td>Uso limitado sin costo, útil para aprender.</td></tr>
+    <tr><td>Contrato empresarial / marketplace</td><td>Acuerdos personalizados o compra por medio de un intermediario (cloud broker).</td></tr>
+  </table></div>
+
+  <h3>Modelos de despliegue en la nube</h3>
+  <div class="tabla"><table>
+    <tr><th>Modelo</th><th>Descripción</th><th>Ventajas</th><th>Desventajas</th><th>Ejemplo</th></tr>
+    <tr><td><strong>Nube pública</strong></td><td>La infraestructura es del proveedor y se comparte con muchos clientes por Internet.</td><td>Bajo costo, gran escalabilidad, sin mantenimiento.</td><td>Menor control, datos en infraestructura compartida.</td><td>AWS, Azure, Google Cloud, Gmail.</td></tr>
+    <tr><td><strong>Nube privada</strong></td><td>Infraestructura dedicada a una sola organización (en su CPD o alojada por un tercero).</td><td>Mayor control, seguridad y personalización.</td><td>Costo alto, requiere personal especializado.</td><td>Bancos, gobierno, hospitales con VMware u OpenStack.</td></tr>
+    <tr><td><strong>Nube híbrida</strong></td><td>Combina nube privada y pública conectadas, moviendo datos y aplicaciones entre ambas.</td><td>Flexibilidad: datos sensibles en privada, picos de demanda en pública.</td><td>Mayor complejidad de gestión y de seguridad.</td><td>Un banco guarda clientes en su nube privada y usa la pública para su app móvil.</td></tr>
+  </table></div>
+  <p><em>Otros modelos:</em> <strong>nube comunitaria</strong> (compartida por organizaciones con intereses comunes, ej. universidades) y <strong>multicloud</strong> (uso de varios proveedores públicos).</p>
+</section>
+
+<!-- ===================== PRÁCTICA ===================== -->
+<section id="practica">
+  <h2>Práctica — RA1</h2>
+  <div class="actividad">
+    <h3>Actividad 1: Laboratorio de máquina virtual</h3>
+    <ol>
+      <li>Instale VirtualBox (o use el de la sala).</li>
+      <li>Cree una VM con 2 GB de RAM y 20 GB de disco e instale una distribución Linux ligera.</li>
+      <li>Tome un <em>snapshot</em>, borre un archivo del sistema y restaure el snapshot.</li>
+      <li>Anote: ¿qué es el host y qué es el guest? ¿Qué tipo de hipervisor usó?</li>
+    </ol>
+  </div>
+  <div class="actividad">
+    <h3>Actividad 2: Cuadro comparativo</h3>
+    <p>Elabore un cuadro comparando nube pública, privada e híbrida para una empresa costarricense (ej. una cooperativa, un hotel o un colegio). Justifique cuál modelo recomienda.</p>
+  </div>
+  <div class="actividad">
+    <h3>Autoevaluación</h3>
+    <details><summary>1. ¿Qué diferencia a un hipervisor tipo 1 de uno tipo 2?</summary>El tipo 1 se instala directamente sobre el hardware (ESXi, Hyper-V, Xen); el tipo 2 se instala sobre un sistema operativo (VirtualBox, Virtual PC).</details>
+    <details><summary>2. ¿Por qué un contenedor arranca más rápido que una VM?</summary>Porque no carga un sistema operativo completo; comparte el kernel del anfitrión.</details>
+    <details><summary>3. Mencione las 5 características esenciales de la nube.</summary>Autoservicio bajo demanda, amplio acceso a la red, agrupación de recursos, elasticidad rápida y servicio medido.</details>
+    <details><summary>4. ¿Qué es un CPD?</summary>Centro de Procesamiento de Datos: instalación que concentra los servidores y equipos de red de una organización.</details>
+    <details><summary>5. ¿Qué rol cumple el proveedor en el modelo de responsabilidad compartida?</summary>Protege la infraestructura física, la red y la capa de virtualización; el cliente protege sus datos, cuentas y configuraciones.</details>
+    <details><summary>6. ¿Cuál modelo de despliegue combina recursos propios con recursos de un proveedor público?</summary>La nube híbrida.</details>
+  </div>
+</section>
+
+<a class="volver" href="index.html">← Volver al inicio</a>
+</main>
+<footer>Ciberseguridad · 11°-3 · Material de estudio — RA1</footer>
+</body>
+</html>

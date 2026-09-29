@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RA2 — Seguridad de datos e infraestructura · 11°-3</title>
+<link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+<header>
+  <h1>Resultado de aprendizaje 2</h1>
+  <p>Distinguir la forma de organización de la nube y el aseguramiento desde la infraestructura hasta el software.</p>
+</header>
+<nav class="menu">
+  <a href="index.html">← Inicio</a>
+  <a href="#conceptos">Conceptos</a>
+  <a href="#servicios">IaaS · PaaS · SaaS</a>
+  <a href="#ciclo">Ciclo de vida de los datos</a>
+  <a href="#cifrado">Cifrado</a>
+  <a href="#infraestructura">Infraestructura de seguridad</a>
+  <a href="#practica">Práctica</a>
+</nav>
+<main>
+
+<!-- ===================== 1. CONCEPTOS ===================== -->
+<section id="conceptos">
+  <h2>1. Seguridad de datos en la nube: conceptos</h2>
+  <p>La seguridad de datos en la nube es el conjunto de políticas, tecnologías y controles que protegen la información almacenada, procesada o transmitida en servicios de nube contra accesos no autorizados, pérdida o alteración. Para entenderla hay que conocer cómo se organiza y administra la nube:</p>
+
+  <div class="tabla"><table>
+    <tr><th>Concepto</th><th>Definición</th><th>Relación con la seguridad</th></tr>
+    <tr><td><strong>Rendimiento</strong></td><td>Capacidad del servicio de responder rápido (latencia, velocidad de procesamiento, ancho de banda).</td><td>Un ataque de denegación de servicio (DDoS) degrada el rendimiento; los controles de seguridad no deben volver lento el sistema.</td></tr>
+    <tr><td><strong>Competitividad</strong></td><td>Ventaja que obtiene una organización al usar la nube: reduce costos, innova más rápido y llega a más clientes.</td><td>Un proveedor seguro y confiable genera confianza en los clientes; una fuga de datos daña la reputación.</td></tr>
+    <tr><td><strong>Escalabilidad</strong></td><td>Capacidad de aumentar o disminuir recursos según la demanda. <em>Vertical</em>: más potencia a un servidor. <em>Horizontal</em>: más servidores.</td><td>Los controles de seguridad deben escalar junto con los recursos (nuevas VM nacen ya protegidas).</td></tr>
+    <tr><td><strong>Abstracción</strong></td><td>Ocultar la complejidad del hardware físico y presentar al usuario recursos lógicos simples (una "VM", un "bucket").</td><td>El cliente no ve el hardware, por eso depende de los controles del proveedor y del SLA.</td></tr>
+    <tr><td><strong>Automatización</strong></td><td>Ejecutar tareas sin intervención humana: crear servidores, aplicar parches, respaldos. Incluye <em>Infraestructura como Código</em> (Terraform, scripts).</td><td>Reduce errores humanos de configuración, una de las causas principales de incidentes.</td></tr>
+    <tr><td><strong>Motor de control para la gestión de datos</strong></td><td>Plataforma central (plano de control / orquestador) que administra dónde se guardan los datos, quién accede, las réplicas y las políticas.</td><td>Aplica políticas de acceso, retención y cifrado de forma uniforme. Ej.: vCenter, OpenStack, consola de AWS.</td></tr>
+    <tr><td><strong>Control de consumo</strong></td><td>Monitoreo y límites del uso de recursos (CPU, almacenamiento, tráfico) y su costo.</td><td>Un consumo anormal puede indicar un ataque (ej. criptominería en una cuenta robada). Se usan alertas y presupuestos.</td></tr>
+    <tr><td><strong>Control de rendimiento</strong></td><td>Supervisión de métricas (tiempo de respuesta, disponibilidad) para cumplir el SLA.</td><td>Detecta caídas o saturación; herramientas: CloudWatch, Azure Monitor.</td></tr>
+    <tr><td><strong>HDDC — Hardware-Defined Data Center</strong></td><td>Centro de datos tradicional donde cada función depende de equipos físicos específicos (switch, firewall, cabina de discos). Cambiar algo implica mover hardware.</td><td>Menos flexible; la seguridad depende de dispositivos físicos configurados a mano.</td></tr>
+    <tr><td><strong>SDDC — Software-Defined Data Center</strong></td><td>Centro de datos donde cómputo, almacenamiento, red y seguridad están <strong>virtualizados y controlados por software</strong>.</td><td>Permite microsegmentación, políticas automáticas y respuesta rápida. Base de la nube moderna.</td></tr>
+    <tr><td><strong>Hiperconvergentes (HCI)</strong></td><td>Sistemas que integran en un mismo equipo cómputo, almacenamiento y red virtualizados, administrados desde una sola consola. Ej.: Nutanix, VMware vSAN.</td><td>Menos componentes que proteger y gestión centralizada; si falla un nodo, otros asumen la carga.</td></tr>
+    <tr><td><strong>Portabilidad</strong></td><td>Capacidad de mover datos y aplicaciones de un proveedor o entorno a otro sin rehacerlos.</td><td>Evita la dependencia de un proveedor (<em>lock-in</em>); los contenedores y estándares abiertos la facilitan.</td></tr>
+    <tr><td><strong>Cloud First (primero la nube)</strong></td><td>Estrategia en la que toda solución nueva se evalúa primero para implementarse en la nube antes que en infraestructura propia.</td><td>Obliga a definir políticas de seguridad en la nube desde el diseño.</td></tr>
+  </table></div>
+  <div class="caja"><strong>HDDC vs SDDC:</strong> en el HDDC "el hardware manda"; en el SDDC "el software manda" y el hardware es genérico. La nube pública es un gran SDDC.</div>
+</section>
+
+<!-- ===================== 2. IaaS PaaS SaaS ===================== -->
+<section id="servicios">
+  <h2>2. Gestión de la organización según los servicios de la nube</h2>
+  <p>Según el modelo de servicio contratado, cambia <strong>quién administra y protege</strong> cada capa.</p>
+  <div class="tabla"><table>
+    <tr><th>Capa</th><th>En sitio (on-premise)</th><th>IaaS</th><th>PaaS</th><th>SaaS</th></tr>
+    <tr><td>Datos y usuarios</td><td>Cliente</td><td>Cliente</td><td>Cliente</td><td>Cliente</td></tr>
+    <tr><td>Aplicación</td><td>Cliente</td><td>Cliente</td><td>Cliente</td><td>Proveedor</td></tr>
+    <tr><td>Runtime / middleware</td><td>Cliente</td><td>Cliente</td><td>Proveedor</td><td>Proveedor</td></tr>
+    <tr><td>Sistema operativo</td><td>Cliente</td><td>Cliente</td><td>Proveedor</td><td>Proveedor</td></tr>
+    <tr><td>Virtualización</td><td>Cliente</td><td>Proveedor</td><td>Proveedor</td><td>Proveedor</td></tr>
+    <tr><td>Servidores, almacenamiento, red</td><td>Cliente</td><td>Proveedor</td><td>Proveedor</td><td>Proveedor</td></tr>
+    <tr><td>Instalaciones físicas</td><td>Cliente</td><td>Proveedor</td><td>Proveedor</td><td>Proveedor</td></tr>
+  </table></div>
+
+  <div class="grid">
+    <div class="tarjeta">
+      <h3>IaaS — Infraestructura como servicio</h3>
+      <p>El proveedor entrega servidores virtuales, almacenamiento y redes. El cliente instala y protege el sistema operativo, aplica parches, configura firewall y protege sus aplicaciones.</p>
+      <p><em>Ej.: AWS EC2, Azure Virtual Machines, Google Compute Engine.</em></p>
+      <p><strong>Seguridad del cliente:</strong> parches del SO, antivirus, grupos de seguridad, cifrado de discos.</p>
+    </div>
+    <div class="tarjeta">
+      <h3>PaaS — Plataforma como servicio</h3>
+      <p>El proveedor entrega una plataforma lista (SO, base de datos, servidor web) para que el cliente solo suba su código.</p>
+      <p><em>Ej.: Google App Engine, Azure App Service, Heroku, Firebase.</em></p>
+      <p><strong>Seguridad del cliente:</strong> código seguro, gestión de claves y secretos, control de accesos.</p>
+    </div>
+    <div class="tarjeta">
+      <h3>SaaS — Software como servicio</h3>
+      <p>El proveedor entrega la aplicación completa y la mantiene; el cliente solo la usa.</p>
+      <p><em>Ej.: Gmail, Microsoft 365, Zoom, Salesforce.</em></p>
+      <p><strong>Seguridad del cliente:</strong> contraseñas fuertes, MFA, permisos de compartición, qué datos sube.</p>
+    </div>
+  </div>
+  <div class="ejemplo">Analogía de la pizza: IaaS = te alquilan la cocina; PaaS = te dan la masa y el horno, tú pones los ingredientes; SaaS = te llevan la pizza lista a la casa.</div>
+</section>
+
+<!-- ===================== 3. CICLO DE VIDA ===================== -->
+<section id="ciclo">
+  <h2>3. Ciclo de vida en la seguridad de los datos</h2>
+  <p>Los datos pasan por seis fases (modelo de la Cloud Security Alliance). En cada una se aplican controles distintos:</p>
+  <div class="tabla"><table>
+    <tr><th>#</th><th>Fase</th><th>Qué sucede</th><th>Controles de seguridad</th></tr>
+    <tr><td>1</td><td><strong>Crear</strong></td><td>Se genera o captura el dato (formulario, archivo, sensor).</td><td>Clasificar el dato (público, interno, confidencial), etiquetarlo, asignar dueño.</td></tr>
+    <tr><td>2</td><td><strong>Almacenar</strong></td><td>Se guarda en una base de datos, disco o bucket.</td><td>Cifrado en reposo, control de accesos, respaldos.</td></tr>
+    <tr><td>3</td><td><strong>Usar</strong></td><td>Se consulta, procesa o modifica.</td><td>Autenticación, mínimo privilegio, registros (logs) de actividad.</td></tr>
+    <tr><td>4</td><td><strong>Compartir</strong></td><td>Se envía a otras personas o sistemas.</td><td>Cifrado en tránsito (HTTPS/TLS), DLP (prevención de fuga de datos), enlaces con caducidad.</td></tr>
+    <tr><td>5</td><td><strong>Archivar</strong></td><td>Se guarda a largo plazo aunque ya no se use diariamente.</td><td>Almacenamiento seguro y económico, cifrado, políticas de retención legal.</td></tr>
+    <tr><td>6</td><td><strong>Destruir</strong></td><td>Se elimina cuando ya no es necesario.</td><td>Borrado seguro, destrucción criptográfica (eliminar la llave de cifrado), certificado de eliminación.</td></tr>
+  </table></div>
+</section>
+
+<!-- ===================== 4. CIFRADO ===================== -->
+<section id="cifrado">
+  <h2>4. Uso de cifrado de datos en la nube</h2>
+  <p><strong>Cifrar</strong> es transformar la información legible (texto plano) en información ilegible (texto cifrado) mediante un algoritmo y una <strong>llave</strong>. Solo quien tenga la llave correcta puede descifrarla.</p>
+
+  <h3>Estados de los datos que se cifran</h3>
+  <ul>
+    <li><strong>En reposo:</strong> datos guardados en discos, bases de datos o respaldos (ej. AES-256).</li>
+    <li><strong>En tránsito:</strong> datos que viajan por la red (ej. HTTPS con TLS 1.2/1.3, VPN).</li>
+    <li><strong>En uso:</strong> datos mientras se procesan en memoria (computación confidencial, enclaves seguros).</li>
+  </ul>
+
+  <h3>Tipos de cifrado</h3>
+  <div class="tabla"><table>
+    <tr><th>Tipo</th><th>Cómo funciona</th><th>Algoritmos</th><th>Uso en la nube</th></tr>
+    <tr><td>Simétrico</td><td>Una sola llave para cifrar y descifrar. Muy rápido.</td><td>AES-128, AES-256</td><td>Cifrar discos, bases de datos y archivos.</td></tr>
+    <tr><td>Asimétrico</td><td>Par de llaves: pública (cifra) y privada (descifra).</td><td>RSA, ECC</td><td>Certificados HTTPS, acceso SSH, firmas digitales.</td></tr>
+    <tr><td>Hash (no es cifrado reversible)</td><td>Genera una "huella" única del dato; no se puede revertir.</td><td>SHA-256, bcrypt</td><td>Guardar contraseñas, verificar integridad.</td></tr>
+  </table></div>
+
+  <h3>Gestión de llaves</h3>
+  <ul>
+    <li><strong>KMS (Key Management Service):</strong> servicio del proveedor que crea, guarda y rota llaves (AWS KMS, Azure Key Vault, Google Cloud KMS).</li>
+    <li><strong>HSM (Hardware Security Module):</strong> dispositivo físico a prueba de manipulación que protege las llaves.</li>
+    <li><strong>BYOK (Bring Your Own Key):</strong> el cliente genera su propia llave y la carga al proveedor.</li>
+    <li><strong>Cifrado del lado del cliente:</strong> los datos se cifran antes de subirlos; el proveedor nunca ve el contenido.</li>
+  </ul>
+  <div class="caja"><strong>Regla de oro:</strong> "quien tiene la llave tiene los datos". Nunca se guardan llaves dentro del código ni junto a los datos que protegen.</div>
+</section>
+
+<!-- ===================== 5. INFRAESTRUCTURA ===================== -->
+<section id="infraestructura">
+  <h2>5. Infraestructura de la seguridad en la nube</h2>
+
+  <h3>Asegurando la infraestructura</h3>
+  <ul>
+    <li><strong>Seguridad física</strong> del data center (a cargo del proveedor): control biométrico, cámaras, guardas, energía redundante.</li>
+    <li><strong>Endurecimiento (hardening)</strong> de VM: desactivar servicios innecesarios, cambiar contraseñas por defecto, aplicar parches.</li>
+    <li><strong>Seguridad del hipervisor:</strong> aislamiento entre VM de distintos clientes.</li>
+    <li><strong>Imágenes base seguras</strong> (plantillas aprobadas) para crear servidores.</li>
+    <li><strong>Protección de endpoints:</strong> antimalware, EDR.</li>
+    <li><strong>Respaldo y redundancia</strong> en varias zonas de disponibilidad.</li>
+    <li><strong>Monitoreo y registros</strong> centralizados (SIEM).</li>
+  </ul>
+
+  <h3>Administración de la red</h3>
+  <ul>
+    <li><strong>Red virtual privada (VPC / VNet):</strong> red aislada del cliente dentro de la nube.</li>
+    <li><strong>Segmentación y subredes:</strong> subred pública (servidor web) y privada (base de datos).</li>
+    <li><strong>Grupos de seguridad y firewalls:</strong> reglas que permiten solo el tráfico necesario (ej. solo puerto 443).</li>
+    <li><strong>WAF (Web Application Firewall):</strong> protege aplicaciones web de ataques como inyección SQL.</li>
+    <li><strong>Protección DDoS.</strong></li>
+    <li><strong>VPN o conexiones dedicadas</strong> para unir la oficina con la nube.</li>
+    <li><strong>Microsegmentación:</strong> cada carga de trabajo solo se comunica con lo estrictamente necesario (enfoque <em>Zero Trust</em>).</li>
+  </ul>
+
+  <h3>Interfaces de gestión</h3>
+  <p>Son los medios para administrar los recursos en la nube: <strong>consola web</strong>, <strong>línea de comandos (CLI)</strong>, <strong>APIs</strong> y <strong>SDK</strong>. Son objetivos atractivos para atacantes porque dan control total.</p>
+  <ul>
+    <li>Acceso solo por HTTPS y, si es posible, desde redes o IP autorizadas.</li>
+    <li>Registrar toda actividad de administración (AWS CloudTrail, Azure Activity Log).</li>
+    <li>Limitar las llamadas a API con tokens de corta duración y permisos mínimos.</li>
+    <li>Usar un <em>bastion host</em> o servicio de acceso seguro en lugar de exponer SSH/RDP a Internet.</li>
+  </ul>
+
+  <h3>Credenciales de administración</h3>
+  <ul>
+    <li><strong>No usar la cuenta raíz</strong> (root) para el trabajo diario; protegerla con MFA y guardarla.</li>
+    <li><strong>Autenticación multifactor (MFA)</strong> obligatoria para administradores.</li>
+    <li><strong>Principio de mínimo privilegio:</strong> cada usuario solo con los permisos que necesita (IAM, roles).</li>
+    <li><strong>Rotación</strong> periódica de contraseñas y llaves de acceso.</li>
+    <li><strong>Gestores de secretos</strong> (AWS Secrets Manager, Azure Key Vault); nunca escribir credenciales en el código ni subirlas a GitHub.</li>
+    <li><strong>Revocar accesos</strong> inmediatamente cuando alguien deja la organización.</li>
+    <li><strong>Gestión de accesos privilegiados (PAM)</strong> y revisiones periódicas de permisos.</li>
+  </ul>
+</section>
+
+<!-- ===================== PRÁCTICA ===================== -->
+<section id="practica">
+  <h2>Práctica — RA2</h2>
+  <div class="actividad">
+    <h3>Actividad 1: ¿Quién protege qué?</h3>
+    <p>Para cada caso indique si es IaaS, PaaS o SaaS y quién es responsable de aplicar el parche o control:</p>
+    <ol>
+      <li>Una vulnerabilidad en el Windows Server de una VM en Azure.</li>
+      <li>Un profesor comparte un documento de Google Drive con "cualquier persona con el enlace".</li>
+      <li>Un error de código en una app publicada en Heroku.</li>
+    </ol>
+    <details><summary>Respuestas</summary>1. IaaS, cliente. 2. SaaS, cliente (configuración de compartición). 3. PaaS, cliente (código propio).</details>
+  </div>
+  <div class="actividad">
+    <h3>Actividad 2: Ciclo de vida</h3>
+    <p>Tome como ejemplo las notas de los estudiantes del colegio y describa un control de seguridad para cada una de las 6 fases del ciclo de vida de los datos.</p>
+  </div>
+  <div class="actividad">
+    <h3>Autoevaluación</h3>
+    <details><summary>1. Diferencia entre HDDC y SDDC.</summary>En el HDDC las funciones dependen de hardware específico; en el SDDC cómputo, red, almacenamiento y seguridad están virtualizados y se controlan por software.</details>
+    <details><summary>2. ¿Qué es un sistema hiperconvergente?</summary>Un sistema que integra cómputo, almacenamiento y red virtualizados en un mismo equipo, gestionado desde una sola consola.</details>
+    <details><summary>3. ¿Qué significa Cloud First?</summary>Estrategia en la que toda solución nueva se evalúa primero para la nube.</details>
+    <details><summary>4. ¿Qué tipo de cifrado se usa en HTTPS para intercambiar llaves?</summary>Asimétrico (RSA/ECC); luego la comunicación continúa con cifrado simétrico (AES).</details>
+    <details><summary>5. Mencione tres buenas prácticas para credenciales de administración.</summary>MFA, mínimo privilegio, no usar la cuenta root, rotación de llaves, gestor de secretos.</details>
+  </div>
+</section>
+
+<a class="volver" href="index.html">← Volver al inicio</a>
+</main>
+<footer>Ciberseguridad · 11°-3 · Material de estudio — RA2</footer>
+</body>
+</html>
