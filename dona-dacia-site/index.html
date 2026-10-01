@@ -948,6 +948,22 @@
     body.in-quote .wa-float{opacity:0; pointer-events:none; transform:translateY(12px);}
   }
 
+  /* ---------- Celular: tarjetas de cabaña con menos texto ---------- */
+  @media (max-width:640px){
+    /* lo que ya dicen las etiquetas, la estrella 5.0 y la descripción larga */
+    .cabin-highlights, .cabin .review-line, .cabin-desc-wrap{display:none;}
+    .cabin{gap:.9rem; padding:1.3rem 1.2rem 1.3rem;}
+    .cabin-photo{margin:-1.3rem -1.2rem 0;}
+    .cabin h3{font-size:1.4rem;}
+    .cabin .place{font-size:.82rem;}
+    .rating-score{font-size:1.2rem;}
+    .cabin-price-bar{padding:.55rem .9rem;}
+    .cabin-price-bar b{font-size:1.3rem;}
+    .cabin-price-bar small{display:inline; margin-left:.3rem; font-size:.78rem;}
+    .cabin-stats{gap:.4rem;}
+    .cabin-stats span{font-size:.78rem; padding:.35em .7em;}
+  }
+
   /* ---------- Reveal on scroll ---------- */
   .reveal{opacity:0; transform:translateY(14px); transition:opacity .6s ease, transform .6s ease;}
   .reveal.in{opacity:1; transform:none;}
