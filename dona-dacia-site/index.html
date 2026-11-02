@@ -600,12 +600,6 @@
     .gallery-grid-paisaje .gallery-tile span{font-size:.66rem; left:.4rem; bottom:.4rem; max-width:calc(100% - .8rem);}
     .gallery-grid-paisaje > .gallery-tile:last-child{aspect-ratio:16/9;}
   }
-  .paisaje-more{display:none;}
-  @media (max-width:480px){
-    /* En teléfono solo 6 fotos; el resto con "Ver todas las fotos" */
-    .gallery-grid-paisaje:not(.is-expanded) > .gallery-tile:nth-child(n+7){display:none;}
-    .paisaje-more{display:flex; margin:1rem auto 0;}
-  }
   .gallery-grid.gallery-grid-masonry{display:block; columns:3 220px; column-gap:1.2rem;}
   .gallery-grid-masonry .gallery-tile{width:100%; break-inside:avoid; margin-bottom:1.2rem; display:block;}
   @media (max-width:900px){ .gallery-grid-masonry{columns:2 220px;} }
@@ -946,6 +940,67 @@
     /* el botón flotante de WhatsApp tapaba el botón de cotizar */
     .wa-float{transition:transform .15s var(--ease-out), opacity .2s ease;}
     body.in-quote .wa-float{opacity:0; pointer-events:none; transform:translateY(12px);}
+  }
+
+  /* ---------- Celular: filas de fotos deslizables, pestañas de galería ---------- */
+  .gallery-tabs, .swipe-hint{display:none;}
+  @media (max-width:640px){
+    #galeria .gallery-grid, .gallery-grid-paisaje, .reviews-grid, .route-photos{
+      display:flex; overflow-x:auto; overscroll-behavior-x:contain;
+      scroll-snap-type:x mandatory; scroll-padding:0 1.25rem;
+      gap:.7rem; margin:0 -1.25rem; padding:.2rem 1.25rem .6rem;
+      scrollbar-width:none;
+    }
+    #galeria .gallery-grid::-webkit-scrollbar, .gallery-grid-paisaje::-webkit-scrollbar,
+    .reviews-grid::-webkit-scrollbar, .route-photos::-webkit-scrollbar{display:none;}
+    #galeria .gallery-grid > *, .gallery-grid-paisaje > .gallery-tile{
+      flex:0 0 78%; max-width:none; scroll-snap-align:start; margin:0; border-radius:16px;
+    }
+    .gallery-grid-paisaje > .gallery-tile:last-child{aspect-ratio:4/3;}
+    .gallery-grid-paisaje .gallery-tile span{font-size:.76rem; left:.7rem; bottom:.7rem;}
+
+    .gallery-tabs{
+      display:grid; grid-template-columns:1fr 1fr; gap:.3rem; padding:.3rem;
+      background:var(--surface-2); border:1px solid var(--line); border-radius:999px;
+      position:sticky; top:calc(var(--header-offset, 70px) + .4rem); z-index:6;
+      box-shadow:0 10px 24px -20px var(--shadow);
+    }
+    .gallery-tabs button{
+      min-height:2.7rem; border:none; border-radius:999px; background:transparent; cursor:pointer;
+      font-family:"Nunito Sans", sans-serif; font-size:.95rem; font-weight:700; color:var(--ink-soft);
+      transition:background .2s ease, color .2s ease;
+    }
+    .gallery-tabs button[aria-selected="true"]{background:var(--accent); color:var(--accent-ink);}
+    .swipe-hint{display:block; margin:.7rem 0 0; font-size:.8rem; color:var(--ink-soft); text-align:center;}
+    #galeria .gallery-cabin-title, .gallery-sub-prefix{display:none;}
+    #galeria .gallery-sub{margin:1.4rem 0 .6rem; font-size:.95rem; color:var(--ink);}
+    #galeria[data-show="dacia"] .wrap > [data-cabin="angel"],
+    #galeria[data-show="angel"] .wrap > [data-cabin="dacia"]{display:none;}
+
+    .reviews-group{margin-top:1.8rem;}
+    .reviews-group h3{font-size:1.15rem;}
+    .reviews-grid > .review-card{flex:0 0 84%; scroll-snap-align:start;}
+    .review-card p{display:-webkit-box; -webkit-line-clamp:6; -webkit-box-orient:vertical; overflow:hidden; font-size:.9rem;}
+    .reviews-note{margin-top:1.2rem; font-size:.8rem;}
+
+    .includes-grid{grid-template-columns:1fr 1fr; gap:.15rem .8rem;}
+    .includes-grid li{background:none; border:none; padding:.55rem 0; font-size:.9rem; line-height:1.3; align-items:flex-start;}
+    .notice{margin-top:1.1rem; padding:.85rem 1rem; font-size:.85rem; line-height:1.5;}
+
+    .loc-guide{max-width:240px;}
+    .loc-guide figcaption{font-size:.82rem;}
+    .loc-cards-col{gap:.8rem;}
+    .loc-top-grid{gap:1.2rem;}
+    .loc-card{padding:1.1rem 1.1rem;}
+    .loc-card p{font-size:.84rem;}
+    .loc-cards-col .loc-card p{display:none;}
+    .loc-cards-col .loc-links{margin-top:.6rem; display:grid; grid-template-columns:1fr 1fr; gap:.5rem;}
+    .loc-cards-col .map-link{margin:0; justify-content:center; padding:.6rem .5rem; border-radius:12px; background:var(--surface-2); font-size:.85rem;}
+    .route-steps{gap:.7rem;}
+    .route-steps .step-text{font-size:.86rem;}
+    .route-photos{margin:1.1rem -1.1rem 0; padding:.2rem 1.1rem .5rem; scroll-padding:0 1.1rem;}
+    .route-photos > .route-photo{flex:0 0 80%; scroll-snap-align:start;}
+    .loc-route .loc-note{font-size:.8rem;}
   }
 
   /* ---------- Celular: historia, reglas y alrededores más compactos ---------- */
@@ -1343,6 +1398,11 @@
         <span class="label"><svg class="label-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="6.5" width="19" height="14" rx="2"/><path d="M8 6.5l1.6-2.4a1.5 1.5 0 011.25-.6h2.3a1.5 1.5 0 011.25.6L16 6.5"/><circle cx="12" cy="13.5" r="3.6"/></svg>Galería</span>
         <h2>Mirá cada rincón de las cabañas</h2>
       </div>
+      <div class="gallery-tabs" role="tablist" aria-label="Elegí la cabaña">
+        <button type="button" role="tab" aria-selected="true" data-cabin="dacia">Doña Dacia</button>
+        <button type="button" role="tab" aria-selected="false" data-cabin="angel">El Ángel</button>
+      </div>
+      <p class="swipe-hint">Deslizá cada fila para ver más fotos</p>
       <h3 class="gallery-cabin-title reveal">Cabaña Doña Dacia</h3>
       <h3 class="gallery-sub reveal">Fachada</h3>
       <div class="gallery-grid reveal">
@@ -1562,7 +1622,6 @@
         <div class="gallery-tile gallery-tile-photo"><img src="images/grupo-de-excursionistas-frente-a-la-cabana-do.jpg" alt="Grupo de excursionistas frente a la Cabaña Doña Dacia" loading="lazy"><span>Huéspedes en la cabaña</span></div>
         <div class="gallery-tile gallery-tile-photo"><img src="images/cascada-entre-rocas-cerca-de-las-cabanas.jpg" alt="Cascada entre rocas cerca de las cabañas" loading="lazy"><span>Cascada en la zona</span></div><div class="gallery-tile gallery-tile-photo"><img src="images/vista-panoramica-de-la-cordillera-de-montana-.webp" alt="Vista panorámica de la cordillera de montaña desde la zona" loading="lazy"><span>Panorámica de la cordillera</span></div><div class="gallery-tile gallery-tile-photo"><img src="images/atardecer-sobre-la-cordillera-de-montana.webp" alt="Atardecer sobre la cordillera de montaña" loading="lazy"><span>Atardecer en la cordillera</span></div><div class="gallery-tile gallery-tile-photo"><img src="images/nina-jugando-en-los-columpios-de-la-zona-de-j.webp" alt="Niña jugando en los columpios de la zona de juegos junto a las cabañas" loading="lazy"><span>Columpios para los niños</span></div><div class="gallery-tile gallery-tile-photo"><img src="images/desayuno-tipico-con-gallo-pinto-queso-tortill.webp" alt="Desayuno típico con gallo pinto, queso, tortilla y café servido al aire libre" loading="lazy"><span>Desayuno típico de la zona</span></div><div class="gallery-tile gallery-tile-photo"><img src="images/trucha-recien-pescada-en-la-zona.webp" alt="Trucha recién pescada en la zona" loading="lazy"><span>Pesca de trucha en la zona</span></div><div class="gallery-tile gallery-tile-photo"><img src="images/vista-al-cerro-chirripo-desde-la-cordillera-c.webp" alt="Vista al Cerro Chirripó desde la cordillera cercana a las cabañas" loading="lazy"><span>Vista al Cerro Chirripó</span></div>
         </div>
-        <button type="button" class="btn btn-ghost paisaje-more" aria-expanded="false">Ver todas las fotos (31)</button>
     </div>
   </section>
 
@@ -1597,12 +1656,12 @@
         <div class="loc-card reveal">
           <h3>Cabaña Doña Dacia — Jaular</h3>
           <p>Se recomienda vehículo 4x4 para el último tramo de acceso. Al confirmar tu reserva te compartimos las indicaciones detalladas para llegar.</p>
-          <div class="loc-links"><a class="map-link" href="https://share.google/QJA9sr5u6AC8b64lU" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s-7-6.3-7-11.5A7 7 0 0119 9.5C19 14.7 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.4"/></svg><span>Ver ubicación en Google Maps</span></a><a class="map-link" href="https://ul.waze.com/ul?from=place.ChIJoa7yhIU1oY8RwzqCaA8JP5U&utm_campaign=default&utm_source=waze_website&utm_medium=lm_share_location" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M9 10c0-1.5 1.3-2.5 3-2.5s3 1 3 2.5-1.2 2-3 3.2"/><circle cx="12" cy="16.5" r=".6" fill="currentColor" stroke="none"/></svg><span>Cómo llegar por Waze</span></a></div>
+          <div class="loc-links"><a class="map-link" href="https://share.google/QJA9sr5u6AC8b64lU" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s-7-6.3-7-11.5A7 7 0 0119 9.5C19 14.7 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.4"/></svg><span>Google Maps</span></a><a class="map-link" href="https://ul.waze.com/ul?from=place.ChIJoa7yhIU1oY8RwzqCaA8JP5U&utm_campaign=default&utm_source=waze_website&utm_medium=lm_share_location" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M9 10c0-1.5 1.3-2.5 3-2.5s3 1 3 2.5-1.2 2-3 3.2"/><circle cx="12" cy="16.5" r=".6" fill="currentColor" stroke="none"/></svg><span>Waze</span></a></div>
         </div>
         <div class="loc-card reveal">
           <h3>Cabaña El Ángel — Rivas</h3>
           <p>Cuenta con parqueo propio dentro de la propiedad. Te enviamos las indicaciones detalladas junto con la confirmación de tu reserva.</p>
-          <div class="loc-links"><a class="map-link" href="https://share.google/0TblBTOmPVxsKXJ1s" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s-7-6.3-7-11.5A7 7 0 0119 9.5C19 14.7 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.4"/></svg><span>Ver ubicación en Google Maps</span></a><a class="map-link" href="https://ul.waze.com/ul?from=place.ChIJ6dfEtxI1oY8R8zMOfA13gZk&utm_campaign=default&utm_source=waze_website&utm_medium=lm_share_location" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M9 10c0-1.5 1.3-2.5 3-2.5s3 1 3 2.5-1.2 2-3 3.2"/><circle cx="12" cy="16.5" r=".6" fill="currentColor" stroke="none"/></svg><span>Cómo llegar por Waze</span></a></div>
+          <div class="loc-links"><a class="map-link" href="https://share.google/0TblBTOmPVxsKXJ1s" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s-7-6.3-7-11.5A7 7 0 0119 9.5C19 14.7 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.4"/></svg><span>Google Maps</span></a><a class="map-link" href="https://ul.waze.com/ul?from=place.ChIJ6dfEtxI1oY8R8zMOfA13gZk&utm_campaign=default&utm_source=waze_website&utm_medium=lm_share_location" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M9 10c0-1.5 1.3-2.5 3-2.5s3 1 3 2.5-1.2 2-3 3.2"/><circle cx="12" cy="16.5" r=".6" fill="currentColor" stroke="none"/></svg><span>Waze</span></a></div>
         </div>
       </div>
       </div>
@@ -2017,7 +2076,7 @@
     }
     function openLightbox(img){
       lastFocused = document.activeElement;
-      group = Array.prototype.slice.call(document.querySelectorAll('.gallery-tile-photo img, .menu-poster img, .route-photo img, .loc-guide-img'));
+      group = Array.prototype.slice.call(document.querySelectorAll('.gallery-tile-photo img, .menu-poster img, .route-photo img, .loc-guide-img')).filter(function(i){ return i.offsetParent !== null; });
       if (!group.length) group = [img];
       var idx = group.indexOf(img);
       showIndex(idx === -1 ? 0 : idx);
@@ -2121,17 +2180,32 @@
         }
       }
     });
-    // Galería de paisaje en teléfono: "Ver todas las fotos" / "Ver menos fotos"
-    document.querySelectorAll('.paisaje-more').forEach(function(btn){
-      var label = btn.textContent;
-      btn.addEventListener('click', function(){
-        var grid = btn.previousElementSibling;
-        var open = grid.classList.toggle('is-expanded');
-        btn.setAttribute('aria-expanded', String(open));
-        btn.textContent = open ? 'Ver menos fotos' : label;
-        if (!open) grid.scrollIntoView({block:'start'});
+    // Galería: pestañas Doña Dacia / El Ángel (solo se ven en celular)
+    var gal = document.getElementById('galeria');
+    var tabs = gal ? gal.querySelectorAll('.gallery-tabs [role="tab"]') : [];
+    if (gal && tabs.length){
+      var cabin = null, titles = 0;
+      gal.querySelectorAll('.wrap > *').forEach(function(el){
+        if (el.classList.contains('gallery-cabin-title')){ cabin = titles++ === 0 ? 'dacia' : 'angel'; }
+        if (cabin) el.setAttribute('data-cabin', cabin);
+        if (el.classList.contains('gallery-sub')){
+          el.innerHTML = el.innerHTML.replace(/^(El Ángel — )/, '<span class="gallery-sub-prefix">$1</span>');
+        }
       });
-    });
+      function showCabin(c){
+        gal.setAttribute('data-show', c);
+        tabs.forEach(function(t){ t.setAttribute('aria-selected', String(t.getAttribute('data-cabin') === c)); });
+      }
+      tabs.forEach(function(t){
+        t.addEventListener('click', function(){
+          showCabin(t.getAttribute('data-cabin'));
+          var top = gal.querySelector('.gallery-tabs').getBoundingClientRect().top;
+          if (top < 0) gal.scrollIntoView({block:'start'});
+        });
+      });
+      showCabin('dacia');
+    }
+
     // Historia: "Leer la historia completa" (solo se ve en celular)
     document.querySelectorAll('.story-more').forEach(function(btn){
       btn.addEventListener('click', function(){
