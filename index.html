@@ -942,6 +942,71 @@
     body.in-quote .wa-float{opacity:0; pointer-events:none; transform:translateY(12px);}
   }
 
+  /* ---------- Resumen bajo la portada ---------- */
+  section.hero-full{padding:0;}
+  .hero-facts{
+    position:relative; z-index:3;
+    display:grid; grid-template-columns:repeat(3, 1fr);
+    max-width:760px; width:calc(100% - 3rem); margin:-3.2rem auto 3rem;
+    background:var(--surface); border:1px solid var(--line); border-radius:22px;
+    box-shadow:0 24px 50px -28px var(--shadow);
+  }
+  .hero-fact{display:flex; flex-direction:column; align-items:center; text-align:center; gap:.15rem; padding:1.05rem .6rem;}
+  .hero-fact + .hero-fact{border-left:1px solid var(--line);}
+  .hero-fact b{font-family:"Fraunces", ui-serif, serif; font-size:1.55rem; line-height:1.1; color:var(--ink); font-weight:700; white-space:nowrap;}
+  .hero-fact-star{color:var(--gold); font-size:.85em;}
+  .hero-fact span{font-size:.82rem; color:var(--ink-soft); line-height:1.3;}
+  @media (max-width:640px){
+    .hero-facts{width:calc(100% - 2rem); margin:-2.4rem auto 2rem; border-radius:18px;}
+    .hero-fact{padding:.8rem .35rem;}
+    .hero-fact b{font-size:1.12rem;}
+    .hero-fact span{font-size:.7rem;}
+  }
+
+  /* ---------- Celular: cabañas deslizables + barra para reservar ---------- */
+  .cabin-dots, .mobile-bar{display:none;}
+  @media (max-width:640px){
+    .cabins{
+      display:flex; gap:.8rem; overflow-x:auto; overscroll-behavior-x:contain;
+      scroll-snap-type:x mandatory; scroll-padding:0 1.25rem;
+      margin:0 -1.25rem; padding:.3rem 1.25rem 1rem; scrollbar-width:none;
+    }
+    .cabins::-webkit-scrollbar{display:none;}
+    .cabins > .cabin{flex:0 0 88%; scroll-snap-align:start;}
+    .cabin-dots{display:flex; justify-content:center; gap:.5rem; margin-top:.2rem;}
+    .cabin-dots button{
+      width:.6rem; height:.6rem; padding:0; border:none; border-radius:999px; cursor:pointer;
+      background:color-mix(in srgb, var(--ink-soft) 35%, transparent);
+      transition:width .25s var(--ease-out), background .2s ease;
+    }
+    .cabin-dots button[aria-current="true"]{width:1.6rem; background:var(--accent);}
+
+    .wa-float{display:none;}
+    .mobile-bar{
+      position:fixed; left:.6rem; right:.6rem; bottom:calc(.6rem + env(safe-area-inset-bottom)); z-index:45;
+      display:flex; align-items:center; justify-content:space-between; gap:.8rem;
+      padding:.55rem .55rem .55rem 1rem; border-radius:20px;
+      background:color-mix(in srgb, var(--surface) 94%, transparent); backdrop-filter:blur(12px);
+      border:1px solid var(--line); box-shadow:0 18px 40px -16px var(--shadow);
+      transform:translateY(140%); transition:transform .3s var(--ease-out);
+    }
+    body.past-hero:not(.in-quote) .mobile-bar{transform:none;}
+    .mobile-bar-price{display:flex; flex-wrap:wrap; align-items:baseline; column-gap:.3rem; line-height:1.2;}
+    .mobile-bar-price span{font-size:.78rem; color:var(--ink-soft);}
+    .mobile-bar-price b{font-family:"Fraunces", ui-serif, serif; font-size:1.2rem; color:var(--ink);}
+    .mobile-bar-price small{flex-basis:100%; font-size:.72rem; color:var(--ink-soft);}
+    .mobile-bar-btn{
+      display:inline-flex; align-items:center; gap:.45rem; flex:none;
+      min-height:2.9rem; padding:0 1.3rem; border-radius:14px;
+      background:#1f8f4e; color:#fff; text-decoration:none;
+      font-family:"Nunito Sans", sans-serif; font-weight:800; font-size:1rem;
+    }
+    .mobile-bar-btn svg{width:20px; height:20px;}
+    .mobile-bar-btn:active{transform:scale(.97);}
+    footer{padding-bottom:6.5rem;}
+  }
+  @media (max-width:640px) and (prefers-reduced-motion: reduce){ .mobile-bar{transition:none;} }
+
   /* ---------- Celular: filas de fotos deslizables, pestañas de galería ---------- */
   .gallery-tabs, .swipe-hint{display:none;}
   @media (max-width:640px){
@@ -1042,7 +1107,7 @@
     .rating-score{font-size:1.2rem;}
     .cabin-price-bar{padding:.55rem .9rem;}
     .cabin-price-bar b{font-size:1.3rem;}
-    .cabin-price-bar small{display:inline; margin-left:.3rem; font-size:.78rem;}
+    .cabin-price-bar small{font-size:.78rem;}
     .cabin-stats{gap:.4rem;}
     .cabin-stats span{font-size:.78rem; padding:.35em .7em;}
   }
@@ -1094,6 +1159,12 @@
       </div>
     </div>
   </section>
+
+  <div class="hero-facts" aria-label="Resumen">
+    <div class="hero-fact"><b>5.0 <span class="hero-fact-star" aria-hidden="true">★</span></b><span>78 reseñas en Airbnb</span></div>
+    <div class="hero-fact"><b>₡10.000</b><span>por persona, por noche</span></div>
+    <div class="hero-fact"><b>2 cabañas</b><span>con WiFi y cocina</span></div>
+  </div>
   <div class="divider" aria-hidden="true">
     <span class="divider-line"></span>
     <span class="divider-dot"></span>
@@ -1244,6 +1315,7 @@
         </article>
 
       </div>
+      <div class="cabin-dots" aria-hidden="true"></div>
     </div>
   </section>
 
@@ -1714,6 +1786,13 @@
   </div>
 </footer>
 
+<div class="mobile-bar">
+  <div class="mobile-bar-price"><span>Desde</span> <b>₡10.000</b><small>por persona / noche</small></div>
+  <a class="mobile-bar-btn" href="https://wa.me/50662281910?text=Hola%2C%20quisiera%20m%C3%A1s%20informaci%C3%B3n%20para%20reservar" target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 20l1.4-4.2A8 8 0 1112 20a7.9 7.9 0 01-4-1.1L4 20z"/><path d="M9 10c0 3 2.5 5 5 5" stroke-linecap="round"/></svg>
+    Reservar
+  </a>
+</div>
 <a class="wa-float" href="https://wa.me/50662281910?text=Hola%2C%20quisiera%20m%C3%A1s%20informaci%C3%B3n%20para%20reservar" target="_blank" rel="noopener" aria-label="Escribir por WhatsApp">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 20l1.4-4.2A8 8 0 1112 20a7.9 7.9 0 01-4-1.1L4 20z"/><path d="M9 10c0 3 2.5 5 5 5" stroke-linecap="round"/></svg>
   <span class="wa-text">Reservar por WhatsApp</span>
@@ -2180,6 +2259,38 @@
         }
       }
     });
+    // Celular: barra "Reservar" aparece después de la portada
+    var hero = document.querySelector('.hero-full');
+    if (hero && 'IntersectionObserver' in window){
+      new IntersectionObserver(function(entries){
+        var e = entries[0];
+        document.body.classList.toggle('past-hero', !e.isIntersecting && e.boundingClientRect.top < 0);
+      }, {threshold:0}).observe(hero);
+    }
+
+    // Celular: puntitos de las cabañas deslizables
+    var cabinsRow = document.querySelector('.cabins');
+    var dotsWrap = document.querySelector('.cabin-dots');
+    if (cabinsRow && dotsWrap){
+      var cards = cabinsRow.querySelectorAll('.cabin');
+      cards.forEach(function(card, i){
+        var d = document.createElement('button');
+        d.type = 'button';
+        d.setAttribute('aria-label', 'Ver cabaña ' + (i + 1));
+        d.addEventListener('click', function(){ cabinsRow.scrollTo({left: card.offsetLeft - cards[0].offsetLeft, behavior:'smooth'}); });
+        dotsWrap.appendChild(d);
+      });
+      dotsWrap.removeAttribute('aria-hidden');
+      var dots = dotsWrap.querySelectorAll('button');
+      function markDot(){
+        var step = cards.length > 1 ? cards[1].offsetLeft - cards[0].offsetLeft : 1;
+        var idx = Math.round(cabinsRow.scrollLeft / step);
+        dots.forEach(function(d, i){ d.setAttribute('aria-current', String(i === idx)); });
+      }
+      cabinsRow.addEventListener('scroll', function(){ requestAnimationFrame(markDot); }, {passive:true});
+      markDot();
+    }
+
     // Galería: pestañas Doña Dacia / El Ángel (solo se ven en celular)
     var gal = document.getElementById('galeria');
     var tabs = gal ? gal.querySelectorAll('.gallery-tabs [role="tab"]') : [];
